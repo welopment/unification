@@ -1,0 +1,22 @@
+name: "unification"
+version: "0.1.2"
+author: "Michael Bürgerling <michael.buergerling@gmail.com>"
+description: "Unification is an implementation of logical first-order unification. It follows Robinson's algorithm, and uses trampolining to avoid stack size limitation issues."
+homepage: "https://www.welopment.com"
+environment:
+  sdk: ">=1.8.0 <=2.1.0"
+
+#transformers:
+#- $dart2js:
+#    minify: true
+
+dependencies:
+  tailcalls: ^0.1.0
+
+dev_dependencies:
+  test: 
+
+#web:
+#  compiler:
+#    debug: dartdevc
+#    release: dart2js
