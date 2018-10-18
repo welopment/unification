@@ -1,7 +1,7 @@
 unification
 ===========
 
-Unification is an implementation of logical first-order unification.
+This project is an implementation of logical first-order unification.
 
 A first-order unification procedure unify is given by this library. It 
 can be applied on two terms of type Termtype that are also given by the 
