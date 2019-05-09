@@ -22,5 +22,9 @@
  - term data structures into separate file.
  - improved comments and docs.
 
- 
- 
+
+## 0.1.3
+ - Fixed minor issues discovered by pana.
+
+ ## 0.1.4
+ - Fixed minor issues discovered by pana.
