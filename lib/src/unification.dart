@@ -53,7 +53,7 @@ TailRec<Termtype> _subst(Termtype s, String x, Termtype t) {
   } else if (t is Term) {
     String f = t.id;
     List<Termtype> u = t.termlist;
-    assert(!u.isEmpty);
+    assert(!u.isNotEmpty);
     assert(u != null);
     return tailcall(() => _mp(s, x, u)).map((right) {
       return new Term(/*t.i*/ f, right);

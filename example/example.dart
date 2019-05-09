@@ -2,7 +2,6 @@ import '../lib/unification.dart';
 import 'dart:collection';
 
 void main() {
-
   var res1 = unify(
     List()
       ..add(
@@ -22,5 +21,4 @@ void main() {
         ),
       ),
   );
-  
 }

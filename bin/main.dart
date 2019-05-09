@@ -1,6 +1,4 @@
-import "../lib/unification.dart";
-
-
+import "package:unification/unification.dart";
 
 void main() {
   var test = unify(

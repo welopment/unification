@@ -1,0 +1,176 @@
+"suggestions": [
+   {
+    "code": "dartanalyzer.warning",
+    "level": "hint",
+    "title": "Fix `bin/main.dart`.",
+    "description": "Analysis of `bin/main.dart` reported 1 hint:\n\nline 1 col 8: Avoid relative imports for files in `lib/`.",
+    "file": "bin/main.dart",
+    "score": 0.5
+   },
+   {
+    "code": "dartanalyzer.warning",
+    "level": "hint",
+    "title": "Fix `lib/src/unification.dart`.",
+    "description": "Analysis of `lib/src/unification.dart` reported 1 hint:\n\nline 56 col 12: Use `isNotEmpty` for Iterables and Maps.",
+    "file": "lib/src/unification.dart",
+    "score": 0.5
+   },
+   {
+    "code": "dartfmt.warning",
+    "level": "hint",
+    "title": "Format `bin/main2.dart`.",
+    "description": "Run `dartfmt` to format `bin/main2.dart`.",
+    "file": "bin/main2.dart"
+   },
+   {
+    "code": "dartfmt.warning",
+    "level": "hint",
+    "title": "Format `bin/main3.dart`.",
+    "description": "Run `dartfmt` to format `bin/main3.dart`.",
+    "file": "bin/main3.dart"
+   }
+  ]
+ },
+ "maintenance": {
+  "missingChangelog": false,
+  "missingExample": false,
+  "missingReadme": false,
+  "missingAnalysisOptions": false,
+  "oldAnalysisOptions": false,
+  "strongModeEnabled": true,
+  "isExperimentalVersion": false,
+  "isPreReleaseVersion": false
+ },
+ "pkgResolution": {
+  "dependencies": [
+   {
+    "package": "tailcalls",
+    "dependencyType": "direct",
+    "constraintType": "normal",
+    "constraint": "^0.1.1",
+    "resolved": "0.1.1"
+   },
+   {
+    "package": "test",
+    "dependencyType": "dev",
+    "constraintType": "normal",
+    "constraint": "any"
+   }
+  ]
+ },
+ "dartFiles": {
+  "bin/main.dart": {
+   "uri": "asset:unification/bin/main.dart",
+   "size": 332,
+   "isFormatted": false,
+   "codeProblems": [
+    {
+     "severity": "INFO",
+     "errorType": "LINT",
+     "errorCode": "avoid_relative_lib_imports",
+     "file": "bin/main.dart",
+     "line": 1,
+     "col": 8,
+     "description": "Avoid relative imports for files in `lib/`."
+    }
+   ],
+   "directLibs": [
+    "package:unification/unification.dart"
+   ],
+   "platform": {
+    "components": [],
+    "uses": {
+     "flutter": "allowed",
+     "web": "allowed",
+     "other": "allowed"
+    }
+   }
+  },
+  "bin/main2.dart": {
+   "uri": "asset:unification/bin/main2.dart",
+   "size": 1178,
+   "isFormatted": false,
+   "codeProblems": [],
+   "directLibs": [],
+   "platform": {
+    "components": [],
+    "uses": {
+     "flutter": "allowed",
+     "web": "allowed",
+     "other": "allowed"
+    }
+   }
+  },
+  "bin/main3.dart": {
+   "uri": "asset:unification/bin/main3.dart",
+   "size": 1179,
+   "isFormatted": false,
+   "codeProblems": [],
+   "directLibs": [],
+   "platform": {
+    "components": [],
+    "uses": {
+     "flutter": "allowed",
+     "web": "allowed",
+     "other": "allowed"
+    }
+   }
+  },
+  "lib/src/terms.dart": {
+   "uri": "package:unification/src/terms.dart",
+   "size": 1301,
+   "isFormatted": true,
+   "codeProblems": []
+  },
+  "lib/src/unification.dart": {
+   "uri": "package:unification/src/unification.dart",
+   "size": 4947,
+   "isFormatted": true,
+   "codeProblems": [
+    {
+     "severity": "INFO",
+     "errorType": "LINT",
+     "errorCode": "prefer_is_not_empty",
+     "file": "lib/src/unification.dart",
+     "line": 56,
+     "col": 12,
+     "description": "Use `isNotEmpty` for Iterables and Maps."
+    }
+   ]
+  },
+  "lib/src/unification2.dart": {
+   "uri": "package:unification/src/unification2.dart",
+   "size": 3850,
+   "isFormatted": true,
+   "codeProblems": []
+  },
+  "lib/src/unification3.dart": {
+   "uri": "package:unification/src/unification3.dart",
+   "size": 3837,
+   "isFormatted": true,
+   "codeProblems": []
+  },
+  "lib/src/utils.dart": {
+   "uri": "package:unification/src/utils.dart",
+   "size": 1002,
+   "isFormatted": true,
+   "codeProblems": []
+  },
+  "lib/unification.dart": {
+   "uri": "package:unification/unification.dart",
+   "size": 265,
+   "isFormatted": true,
+   "codeProblems": [],
+   "directLibs": [
+    "package:tailcalls/tailcalls.dart"
+   ],
+   "platform": {
+    "components": [],
+    "uses": {
+     "flutter": "allowed",
+     "web": "allowed",
+     "other": "allowed"
+    }
+   }
+  }
+ },
