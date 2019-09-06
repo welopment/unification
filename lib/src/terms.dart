@@ -50,7 +50,7 @@ class Var<T> extends Termtype<T> {
 ///
 
 class Term<T> extends Termtype<T> {
-  Term(T i, List<Termtype> t)
+  Term(T i, List<Termtype<T>> t)
       : assert(i != null),
         assert(t != null) {
     this._id = i;
