@@ -1,10 +1,12 @@
-part of unification;
-/*
+//part of unification;
+
+
 import "package:tailcalls/tailcalls.dart";
 import 'utils.dart';
 import 'terms.dart';
+
 export 'terms.dart';
-*/
+
 
 /// trampolined version
 
@@ -196,3 +198,4 @@ TailRec<List<Tupl<String, Termtype>>> unify(List<Tupl<Termtype, Termtype>> s) {
     });
   }
 }
+

@@ -284,10 +284,10 @@ packages:
   tailcalls:
     dependency: "direct main"
     description:
-      name: tailcalls
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.1"
+      path: "../tailcall"
+      relative: true
+    source: path
+    version: "0.1.2"
   term_glyph:
     dependency: transitive
     description:

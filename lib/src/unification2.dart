@@ -1,10 +1,12 @@
-/*import 'utils.dart';
-//import 'terms.dart';
-//export 'terms.dart';
+//part of unification;
+
+
+import 'utils.dart';
+import 'terms.dart';
+export 'terms.dart';
+
 
 /// not trampolined version
-
-
 
 /// occurs check
 
@@ -51,14 +53,12 @@ Termtype _subst(Termtype s, String x, Termtype t) {
     List<Termtype> u = t.termlist;
     var right = _mp(s, x, u);
     return new Term(f, right);
-
- 
   } else {
     throw new Exception("Subst: Unbehandelter Fall");
   }
 }
 
-/// 
+///
 
 List<Termtype> _mp(Termtype s, String x, List<Termtype> l) {
   assert(l != null);
@@ -77,8 +77,6 @@ List<Termtype> _mp(Termtype s, String x, List<Termtype> l) {
     var res = [left];
     res.addAll(right);
     return res;
-
-
   }
 }
 
@@ -101,8 +99,6 @@ Termtype _apply(List<Tupl<String, Termtype>> ths, Termtype z) {
     }
     var right = _subst(u, x, apd);
     return right;
-
-
   }
 }
 
@@ -139,12 +135,8 @@ List<Tupl<String, Termtype>> _unify_one(Termtype s, Termtype t) {
     }
   } else if (s is Var && t is Term) {
     return _unifyhelper(t, s.id);
-
-
-
   } else if (s is Term && t is Var) {
     return _unifyhelper(s, t.id);
-
   } else {
     throw new Exception("Not unifiable #2");
   }
@@ -184,4 +176,3 @@ List<Tupl<String, Termtype>> unify(List<Tupl<Termtype, Termtype>> s) {
     return t1;
   }
 }
-*/

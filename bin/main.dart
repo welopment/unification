@@ -1,6 +1,8 @@
 import "package:unification/unification.dart";
 
 void main() {
+  // für die trampolined version
+  /*
   var test = unify(
     new List()
       ..add(
@@ -12,4 +14,6 @@ void main() {
   ).result();
   var mgu = test;
   print(mgu.toString());
+
+  */
 }

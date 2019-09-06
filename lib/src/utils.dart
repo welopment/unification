@@ -1,4 +1,4 @@
-part of unification;
+// part of unification;
 
 /// [ZipFun2] is the type of a function applicable on each elements of two lists
 /// in [zip2]

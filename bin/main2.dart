@@ -1,4 +1,4 @@
-/*import "../lib/src/unification2.dart";
+import "../lib/src/unification.dart";
 
 void main() {
   var test1 = unify(
@@ -61,11 +61,12 @@ void main() {
   );
 
   try {
-    List<Tupl<String, Termtype>> ur = unify([new Tupl(a, b)]);
+    List<Tupl<String, Termtype>> ur = unify([new Tupl(a, b)]).compute();
     List<Tupl<String, Termtype>> res = ur;
     print("\n" + res.toString() + "\n");
   } on Exception catch (e) {
     print("Exception in Test: $e");
   }
+
+  
 }
-*/

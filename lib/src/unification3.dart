@@ -1,10 +1,10 @@
-/*
+
 import 'utils.dart';
 import 'terms.dart';
 export 'terms.dart';
 
 // not trampolined version, same as unification2.dart
-// without helper fundtions
+// without helper functions
 // reusing unify_one in two branches Term Var -> Var Term
 
 /// occurs check
@@ -169,4 +169,4 @@ List<Tupl<String, Termtype>> unify(List<Tupl<Termtype, Termtype>> s) {
     return t1;
   }
 }
-*/
+

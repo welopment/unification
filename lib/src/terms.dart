@@ -1,4 +1,4 @@
-part of unification;
+//part of unification;
 
 ///  terms
 ///
@@ -7,6 +7,16 @@ abstract class Termtype<T> {
   T _id;
 
   T get id => this._id;
+  /*
+  @override
+  bool operator ==(dynamic other) {
+    if (other is Termtype<T>) {
+      return this._id == other._id;
+    } else {
+      return false;
+    }
+  }
+  */
 }
 
 ///
@@ -21,11 +31,18 @@ class Var<T> extends Termtype<T> {
     return "Var(${this.id.toString()})";
   }
 
+/*
   @override
   bool operator ==(dynamic other) {
-    return this == other;
-  }
+    if (other is Termtype<T>) {
+      return this._id == other._id;
+    } else {
+      return false;
+    }
 
+
+  }
+*/
   @override
   int get hashCode => this._id.hashCode;
 }
@@ -47,6 +64,16 @@ class Term<T> extends Termtype<T> {
   String toString() {
     return "Term(${this.id.toString()}, ${this.termlist})";
   }
+  /*
+  @override
+  bool operator ==(dynamic other) {
+    if (other is Termtype<T>) {
+      return this._id == other._id;
+    } else {
+      return false;
+    }
+  }
+  */
 }
 
 /// utility
@@ -55,11 +82,14 @@ class Tupl<L, R> {
   Tupl(left, right)
       : assert(left != null),
         assert(right != null) {
+    /// Remove
     if (left == null) {
       throw new Exception("Tupl: left is null");
     } else {
       this._left = left;
     }
+
+    /// Remove
     if (right == null) {
       throw new Exception("Tupl: right is null");
     } else {
@@ -75,4 +105,14 @@ class Tupl<L, R> {
   String toString() {
     return "(${left.toString()}, ${right.toString()})";
   }
+  /*
+  @override
+  bool operator ==(dynamic other) {
+    if (other is Tupl<L, R>) {
+      return this._left == other._left && this._right == other._right;
+    } else {
+      return false;
+    }
+  }
+  */
 }
