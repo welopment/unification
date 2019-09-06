@@ -8,7 +8,7 @@ export 'terms.dart';
 // reusing unify_one in two branches Term Var -> Var Term
 
 /// occurs check
-
+/* 
 bool occurs(String x, Termtype t) {
   if (t is Var) {
     var y = t.id;
@@ -170,3 +170,4 @@ List<Tupl<String, Termtype>> unify(List<Tupl<Termtype, Termtype>> s) {
   }
 }
 
+*/

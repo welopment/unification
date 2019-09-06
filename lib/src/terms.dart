@@ -57,8 +57,8 @@ class Term<T> extends Termtype<T> {
     this._termlist = t;
   }
 
-  List<Termtype> _termlist;
-  List<Termtype> get termlist => this._termlist;
+  List<Termtype<T>> _termlist;
+  List<Termtype<T>> get termlist => this._termlist;
 
   @override
   String toString() {
@@ -79,7 +79,7 @@ class Term<T> extends Termtype<T> {
 /// utility
 
 class Tupl<L, R> {
-  Tupl(left, right)
+  Tupl(L left, R right)
       : assert(left != null),
         assert(right != null) {
     /// Remove

@@ -1,29 +1,42 @@
 import "package:test/test.dart";
 import "package:tailcalls/tailcalls.dart";
 import "../lib/unification.dart";
-/* 
+
 void main() {
   group("Property", () {
     test("Property.value: get, set ", () {
-      var test1 = unify(
+      /* */
+     var test1 = unify(
         new List()
           ..add(
             new Tupl<Termtype<String>, Termtype<String>>(
               new Var("a"),
               new Var("b"),
-            ),
+            ) ,
           ),
       ).result();
       print(test1.toString());
 
-      var test2 = unify(
-        new List()
+/* 
+
+Cont<Termtype<dynamic>, List<Tupl<String, Termtype<dynamic>>>>' 
+Cont<List<Tupl<String, Termtype<dynamic>>>, List<Tupl<String, Termtype<dynamic>>>>
+
+*/
+
+/*
+      var test2 = unify( 
+        new List<Tupl<Termtype<String>, Termtype<String>>>()
           ..add(
-            new Tupl(
-              new Term("b0", [new Term("b1", []), new Term("b2", [])]),
-              new Term("b0", [new Term("b1", []), new Term("b2", [])]),
+            new Tupl<Term<String>, Term<String>>(
+              new Term<String>("b0",
+                  [new Term<String>("b1", 
+                  new List<Termtype<String>>()), new Term<String>("b2", <Termtype<String>>[])]),
+              new Term<String>("b0",
+                  [new Term<String>("b1", <Termtype<String>>[]),
+                   new Term<String>("b2", <Termtype<String>>[])  ]),
             ),
-          ),
+          ) ,
       ).result();
       print(test2.toString());
 
@@ -68,8 +81,7 @@ void main() {
         print("\n" + res.toString() + "\n");
       } on Exception catch (e) {
         print("Exception in Test: $e");
-      }
+      }*/
     });
   });
 }
-*/
