@@ -7,7 +7,7 @@ abstract class Termtype<T> {
   T _id;
 
   T get id => this._id;
-  /*
+
   @override
   bool operator ==(dynamic other) {
     if (other is Termtype<T>) {
@@ -16,7 +16,6 @@ abstract class Termtype<T> {
       return false;
     }
   }
-  */
 }
 
 ///
@@ -31,7 +30,6 @@ class Var<T> extends Termtype<T> {
     return "Var(${this.id.toString()})";
   }
 
-/*
   @override
   bool operator ==(dynamic other) {
     if (other is Termtype<T>) {
@@ -39,10 +37,8 @@ class Var<T> extends Termtype<T> {
     } else {
       return false;
     }
-
-
   }
-*/
+
   @override
   int get hashCode => this._id.hashCode;
 }
@@ -64,7 +60,7 @@ class Term<T> extends Termtype<T> {
   String toString() {
     return "Term(${this.id.toString()}, ${this.termlist})";
   }
-  /*
+
   @override
   bool operator ==(dynamic other) {
     if (other is Termtype<T>) {
@@ -73,7 +69,6 @@ class Term<T> extends Termtype<T> {
       return false;
     }
   }
-  */
 }
 
 /// utility
@@ -105,7 +100,7 @@ class Tupl<L, R> {
   String toString() {
     return "(${left.toString()}, ${right.toString()})";
   }
-  /*
+
   @override
   bool operator ==(dynamic other) {
     if (other is Tupl<L, R>) {
@@ -114,5 +109,4 @@ class Tupl<L, R> {
       return false;
     }
   }
-  */
 }

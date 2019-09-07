@@ -2,20 +2,24 @@ import 'utils.dart';
 import 'terms.dart';
 export 'terms.dart';
 
-/// not trampolined version
-/// diese funtioniert und ist das vorbild für die mit Tramp, 
-/// die noch nicht funktionert
+/// not trampolined version, same as unification2.dart
+/// without helper functions
+/// diese muss das absolute vorbild sein
 
- 
- 
-/// occurs check
+/// reusing unify_one in two branches Term Var -> Var Term
+
+
 class Unification<A> {
+  
+  
+  /// [occurs] occurs check
+  /// gibt das ergebnis als bool zurück , nicht als Exception
   bool occurs(A x, Termtype<A> t) {
-    if (t is Var) {
+    if (t is Var<A>) {
       A y = t.id;
       return (x == y);
     } else if (t is Term<A>) {
-      List<Termtype> s = t.termlist;
+      List<Termtype<A>> s = t.termlist;
       return _exsts(s, x);
     } else if (x == null || t == null) {
       throw new Exception("occurs: Variable name  or Termtype is null");
@@ -24,22 +28,23 @@ class Unification<A> {
     }
   }
 
-  /// helper fuction for occurs check
+  /// [_exsts] exists helper fuction for "occurs check"
 
   bool _exsts(List<Termtype<A>> l, A target) {
     if (l.isEmpty) {
+      // Liste ist null
       return (false);
     } else {
-      Termtype lh = l.first;
-      List<Termtype<A>> lt = l.sublist(1);
+      Termtype<A> lh = l.first; // Head of LIst
+      List<Termtype<A>> lt = l.sublist(1); // Rest/Tail of List
 
-      bool right = _exsts(lt, target);
-      bool left = occurs(target, lh);
+      bool right = _exsts(lt, target); // recursiv
+      bool left = occurs(target, lh); // Abstieg in Schachtelung
       return (left || right);
     }
   }
 
-  /// substitution
+  ///  [_subst] substitution
 
   Termtype<A> _subst(Termtype<A> s, A x, Termtype<A> t) {
     if (t is Var<A>) {
@@ -65,16 +70,16 @@ class Unification<A> {
     if (l.isEmpty) {
       return (new List<Termtype<A>>());
     } else {
-      var lh = l.first;
-      var lt = l.sublist(1);
+      Termtype<A> lh = l.first;
+      List<Termtype<A>> lt = l.sublist(1);
       assert(lh != null);
       assert(lt != null);
-      // for
-      var right = _mp(s, x, lt);
 
-      var left = _subst(s, x, lh);
+      List<Termtype<A>> right = _mp(s, x, lt);
 
-      var res = [left];
+      Termtype<A> left = _subst(s, x, lh);
+
+      List<Termtype<A>> res = [left];
       res.addAll(right);
       return res;
     }
@@ -102,14 +107,14 @@ class Unification<A> {
     }
   }
 
-  ///  unify two ingle Termtypes, one by one
+  /// [unify_one]: unify two ingle Termtypes, one by one
 
   List<Tupl<A, Termtype<A>>> _unify_one(Termtype<A> s, Termtype<A> t) {
     if (s == null || t == null) {
       throw new Exception("occurs: Termtype is null");
     } else if (s is Var<A> && t is Var<A>) {
-      var x = s.id;
-      var y = t.id;
+      A x = s.id;
+      A y = t.id;
 
       if (x == y) {
         return new List<Tupl<A, Termtype<A>>>();
@@ -126,50 +131,42 @@ class Unification<A> {
 
       if ((f == g) && (sc.length == tc.length)) {
         List<Tupl<Termtype<A>, Termtype<A>>> zpd =
+        // zwei Eingabetypen , ein Ausgabetyp
             zip<Termtype<A>, Tupl<Termtype<A>, Termtype<A>>>(
-                sc,
-                tc,
-                (left, right) =>
-                    new Tupl<Termtype<A>, Termtype<A>>(left, right));
+                sc, tc, (left, right) => new Tupl(left, right));
 
         return unify(zpd);
       } else {
         throw new Exception("Not unifiable #1");
       }
-    } else if (s is Var && t is Term) {
-      return _unifyhelper(t, s.id);
-    } else if (s is Term && t is Var) {
-      return _unifyhelper(s, t.id);
+    } else if (s is Var<A> && t is Term<A>) {
+      A x = s.id;
+      bool left = occurs(x, t);
+      List<Tupl<A, Term<A>>> right = ([new Tupl(x, t)]);
+
+      if (left) {
+        throw new Exception("Not unifiable: Occurs check true / Circularity");
+      } else {
+        return right;
+      }
+    } else if (s is Term<A> && t is Var<A>) {
+      // Wiederverwendung von Fall  s is Var<A> && t is Term<A> oben für die Umgekehrte Stellung
+      return _unify_one(t, s);
     } else {
       throw new Exception("Not unifiable #2");
     }
   }
 
-  ///helper function for unify_one
-
-  List<Tupl<A, Termtype>> _unifyhelper(Termtype<A> t, A x) {
-    bool left = occurs(x, t);
-    List<Tupl<A, Termtype<A>>> right = ([new Tupl(x, t)]);
-    List<Tupl<A, Termtype>> innerres;
-
-    if (left) {
-      throw new Exception("not unifiable: circularity");
-    } else {
-      innerres = right;
-    }
-
-    return innerres;
-  }
-
-  /// unify a list of terms
+  /// [unify]: unify a list of terms
 
   List<Tupl<A, Termtype<A>>> unify(List<Tupl<Termtype<A>, Termtype<A>>> s) {
     if (s.isEmpty) {
       return (new List<Tupl<A, Termtype<A>>>());
     } else {
-      Termtype x = s.first.left;
-      Termtype y = s.first.right;
-      List<Tupl<Termtype, Termtype>> t = s.sublist(1);
+      // das erste Tupel wird zerlegt. 
+      Termtype<A> x = s.first.left;
+      Termtype<A> y = s.first.right;
+      List<Tupl<Termtype<A>, Termtype<A>>> t = s.sublist(1);
       List<Tupl<A, Termtype<A>>> t2 = unify(t);
       Termtype<A> left = _apply(t2, x);
       Termtype<A> right = _apply(t2, y);
@@ -179,17 +176,4 @@ class Unification<A> {
       return t1;
     }
   }
-}
-
-void main1() {
-  var u = new Unification<String>();
-  var res1 = u.unify([Tupl(Var("a"), Var("b"))]);
-  print(res1);
-
-  List<Tupl<String, Termtype<String>>> res2 = u.unify([
-    Tupl<Termtype<String>, Termtype<String>>(Var<String>("a"), Var<String>("b"))
-  ]);
-  print(res2);
-
-  //List<Tupl<String, Termtype>>
 }
