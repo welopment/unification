@@ -1,12 +1,14 @@
-/// diese ist unification mit trampoline 
-/// diese muß nach dem Vorbild von 
-///  der ohne tramp korrigiert werden 
-
 import "package:tailcalls/tailcalls.dart";
 import 'utils.dart';
 import 'terms.dart';
 
 export 'terms.dart';
+
+
+/// diese ist unification mit trampoline 
+/// diese muß nach dem Vorbild von 
+/// der ohne trampoline, ggf der ohne helper
+/// korrigiert werden 
 
 /// trampolined version
 
