@@ -15,7 +15,7 @@ class Unification<A> {
       A y = t.id;
       return (x == y);
     } else if (t is Term<A>) {
-      List<Termtype> s = t.termlist;
+      List<Termtype<A>> s = t.termlist;
       return _exsts(s, x);
     } else if (x == null || t == null) {
       throw new Exception("occurs: Variable name  or Termtype is null");
@@ -30,9 +30,8 @@ class Unification<A> {
     if (l.isEmpty) {
       return (false);
     } else {
-      Termtype lh = l.first;
+      var lh = l.first;
       List<Termtype<A>> lt = l.sublist(1);
-
       bool right = _exsts(lt, target);
       bool left = occurs(target, lh);
       return (left || right);
@@ -147,10 +146,10 @@ class Unification<A> {
 
   ///helper function for unify_one
 
-  List<Tupl<A, Termtype>> _unifyhelper(Termtype<A> t, A x) {
+  List<Tupl<A, Termtype<A>>> _unifyhelper(Termtype<A> t, A x) {
     bool left = occurs(x, t);
     List<Tupl<A, Termtype<A>>> right = ([new Tupl(x, t)]);
-    List<Tupl<A, Termtype>> innerres;
+    List<Tupl<A, Termtype<A>>> innerres;
 
     if (left) {
       throw new Exception("not unifiable: circularity");
@@ -167,9 +166,9 @@ class Unification<A> {
     if (s.isEmpty) {
       return (new List<Tupl<A, Termtype<A>>>());
     } else {
-      Termtype x = s.first.left;
-      Termtype y = s.first.right;
-      List<Tupl<Termtype, Termtype>> t = s.sublist(1);
+      Termtype<A> x = s.first.left;
+      Termtype<A> y = s.first.right;
+      List<Tupl<Termtype<A>, Termtype<A>>> t = s.sublist(1);
       List<Tupl<A, Termtype<A>>> t2 = unify(t);
       Termtype<A> left = _apply(t2, x);
       Termtype<A> right = _apply(t2, y);
@@ -180,7 +179,7 @@ class Unification<A> {
     }
   }
 }
-
+/*
 void main1() {
   var u = new Unification<String>();
   var res1 = u.unify([Tupl(Var("a"), Var("b"))]);
@@ -193,3 +192,4 @@ void main1() {
 
   //List<Tupl<String, Termtype>>
 }
+*/

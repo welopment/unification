@@ -1,46 +1,42 @@
 import "package:test/test.dart";
 import "package:tailcalls/tailcalls.dart";
-import "../lib/unification.dart";
+//import 'package:unification/src/unification3.dart' as prefix0;
+import "package:unification/src/unification.dart";
 
 void main() {
+  Unification<String> u = new Unification<String>();
+
   group("Property", () {
     test("Property.value: get, set ", () {
-      /* */
-     var test1 = unify(
+      dynamic test1 = u.unify(
         new List()
           ..add(
             new Tupl<Termtype<String>, Termtype<String>>(
               new Var("a"),
               new Var("b"),
-            ) ,
+            ),
           ),
-      ).result();
+      );
       print(test1.toString());
 
-/* 
-
-Cont<Termtype<dynamic>, List<Tupl<String, Termtype<dynamic>>>>' 
-Cont<List<Tupl<String, Termtype<dynamic>>>, List<Tupl<String, Termtype<dynamic>>>>
-
-*/
-
-/*
-      var test2 = unify( 
+      List<Tupl<String, Termtype<String>>> test2 = u.unify(
         new List<Tupl<Termtype<String>, Termtype<String>>>()
           ..add(
             new Tupl<Term<String>, Term<String>>(
-              new Term<String>("b0",
-                  [new Term<String>("b1", 
-                  new List<Termtype<String>>()), new Term<String>("b2", <Termtype<String>>[])]),
-              new Term<String>("b0",
-                  [new Term<String>("b1", <Termtype<String>>[]),
-                   new Term<String>("b2", <Termtype<String>>[])  ]),
+              new Term<String>("b0", [
+                new Term<String>("b1", new List<Termtype<String>>()),
+                new Term<String>("b2", <Termtype<String>>[])
+              ]),
+              new Term<String>("b0", [
+                new Term<String>("b1", <Termtype<String>>[]),
+                new Term<String>("b2", <Termtype<String>>[])
+              ]),
             ),
-          ) ,
-      ).result();
+          ),
+      );
       print(test2.toString());
 
-      var test3 = unify(
+      List<Tupl<String, Termtype<String>>> test3 = u.unify(
         new List()
           ..add(
             new Tupl(
@@ -48,15 +44,15 @@ Cont<List<Tupl<String, Termtype<dynamic>>>, List<Tupl<String, Termtype<dynamic>>
               new Var("b"),
             ),
           ),
-      ).result();
+      );
 
       print(test3.toString());
 
-      var a = new Term(
+      var a = new Term<String>(
         "a",
         [
           new Var("b"),
-          new Term("x", []),
+          new Term<String>("x", <Termtype<String>>[]),
           new Var("b"),
         ],
       );
@@ -70,18 +66,18 @@ Cont<List<Tupl<String, Termtype<dynamic>>>, List<Tupl<String, Termtype<dynamic>>
               new Var("z"),
             ],
           ),
-          new Term("x", []),
+          new Term<String>("x", <Termtype<String>>[]),
           new Var("z"), // z
         ],
       );
 
-      TailRec<List<Tupl<String, Termtype>>> ur = unify([new Tupl(a, b)]);
+      var ur = u.unify([new Tupl(a, b)]);
       try {
-        List<Tupl<String, Termtype>> res = ur.result();
+        List<Tupl<String, Termtype<String>>> res = ur; // .result();
         print("\n" + res.toString() + "\n");
       } on Exception catch (e) {
         print("Exception in Test: $e");
-      }*/
+      }
     });
   });
 }

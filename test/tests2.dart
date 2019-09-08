@@ -1,6 +1,5 @@
 import "package:test/test.dart";
-
-import "../lib/src/unification2.dart";
+import "package:unification/src/unification2.dart";
 
 void main() {
   var u = Unification<String>();

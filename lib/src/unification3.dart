@@ -8,10 +8,7 @@ export 'terms.dart';
 
 /// reusing unify_one in two branches Term Var -> Var Term
 
-
-class Unification<A> {
-  
-  
+class UnificationR<A> {
   /// [occurs] occurs check
   /// gibt das ergebnis als bool zurück , nicht als Exception
   bool occurs(A x, Termtype<A> t) {
@@ -131,7 +128,7 @@ class Unification<A> {
 
       if ((f == g) && (sc.length == tc.length)) {
         List<Tupl<Termtype<A>, Termtype<A>>> zpd =
-        // zwei Eingabetypen , ein Ausgabetyp
+            // zwei Eingabetypen , ein Ausgabetyp
             zip<Termtype<A>, Tupl<Termtype<A>, Termtype<A>>>(
                 sc, tc, (left, right) => new Tupl(left, right));
 
@@ -142,7 +139,7 @@ class Unification<A> {
     } else if (s is Var<A> && t is Term<A>) {
       A x = s.id;
       bool left = occurs(x, t);
-      List<Tupl<A, Term<A>>> right = ([new Tupl(x, t)]);
+      List<Tupl<A, Termtype<A>>> right = ([new Tupl(x, t)]);
 
       if (left) {
         throw new Exception("Not unifiable: Occurs check true / Circularity");
@@ -163,7 +160,6 @@ class Unification<A> {
     if (s.isEmpty) {
       return (new List<Tupl<A, Termtype<A>>>());
     } else {
-      // das erste Tupel wird zerlegt. 
       Termtype<A> x = s.first.left;
       Termtype<A> y = s.first.right;
       List<Tupl<Termtype<A>, Termtype<A>>> t = s.sublist(1);
@@ -172,8 +168,7 @@ class Unification<A> {
       Termtype<A> right = _apply(t2, y);
       List<Tupl<A, Termtype<A>>> t1 = _unify_one(left, right);
 
-      t1.addAll(t2);
-      return t1;
+      return t1 + t2;
     }
   }
 }

@@ -4,11 +4,10 @@ import 'terms.dart';
 
 export 'terms.dart';
 
-
-/// diese ist unification mit trampoline 
-/// diese muß nach dem Vorbild von 
+/// diese ist unification mit trampoline
+/// diese muß nach dem Vorbild von
 /// der ohne trampoline, ggf der ohne helper
-/// korrigiert werden 
+/// korrigiert werden
 
 /// trampolined version
 
@@ -146,7 +145,7 @@ class Unification<A> {
                 (left, right) =>
                     new Tupl<Termtype<A>, Termtype<A>>(left, right));
 
-        return tailcall(() => unify(zpd));
+        return tailcall(() => unifyTc(zpd));
       } else {
         throw new Exception("Not unifiable: #1");
       }
@@ -164,7 +163,7 @@ class Unification<A> {
   TailRec<List<Tupl<A, Termtype<A>>>> _unifyhelper(Termtype<A> t, A x) {
     return tailcall(() => occurs(x, t)).flatMap((left) {
       return done([new Tupl(x, t)]).map((right) {
-        List<Tupl<A, Termtype>> innerres;
+        List<Tupl<A, Termtype<A>>> innerres;
         if (left) {
           throw new Exception("Not unifiable: Circularity");
         } else {
@@ -177,7 +176,7 @@ class Unification<A> {
 
   /// unify a list of terms
 
-  TailRec<List<Tupl<A, Termtype<A>>>> unify(
+  TailRec<List<Tupl<A, Termtype<A>>>> unifyTc(
       List<Tupl<Termtype<A>, Termtype<A>>> s) {
     if (s.isEmpty) {
       return done<List<Tupl<A, Termtype<A>>>>(new List<Tupl<A, Termtype<A>>>());
@@ -188,7 +187,7 @@ class Unification<A> {
 
       assert(t != null);
 
-      return tailcall(() => unify(t)).flatMap((t2) {
+      return tailcall(() => unifyTc(t)).flatMap((t2) {
         return tailcall(() => _apply(t2, x)).flatMap((left) {
           return tailcall(() => _apply(t2, y)).flatMap((right) {
             return tailcall(() => _unify_one(left, right)).map((t1) {
@@ -202,15 +201,18 @@ class Unification<A> {
       });
     }
   }
+
+  List<Tupl<A, Termtype<A>>> unify(List<Tupl<Termtype<A>, Termtype<A>>> s) {
+    return unifyTc(s).result();
+  }
 }
 
 void main() {
   var u = new Unification<String>();
 
-  TailRec<List<Tupl<String, Termtype<String>>>> res2 =
+  List<Tupl<String, Termtype<String>>> res2 =
       u.unify([Tupl(Var("a"), Var("b"))]);
 
-  res2.result();
   //print();
 }
 
