@@ -28,3 +28,8 @@
 
  ## 0.1.4
  - Fixed minor issues discovered by pana.
+
+
+ ## 0.1.5
+ - Fixed issues related to generics.
+

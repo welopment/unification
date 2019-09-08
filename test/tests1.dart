@@ -1,13 +1,13 @@
 import "package:test/test.dart";
 import "package:tailcalls/tailcalls.dart";
-import "package:unification/src/unification.dart";
+import "package:unification/src/unification1.dart";
 
 void main() {
   Unification<String> u = new Unification<String>();
 
-  group("Property", () {
-    test("Property.value: get, set ", () {
-      dynamic test1 = u.unify(
+  group("Unification (trampolined version)", () {
+    test("zwei Variablen", () {
+      var test1 = u.unifyTc(
         new List()
           ..add(
             new Tupl<Termtype<String>, Termtype<String>>(
@@ -16,8 +16,9 @@ void main() {
             ),
           ),
       );
-      print(test1.toString());
-
+      List<Tupl<String, Termtype<String>>> res = test1.result();
+      print(res.toString());
+      /*
       List<Tupl<String, Termtype<String>>> test2 = u.unify(
         new List<Tupl<Termtype<String>, Termtype<String>>>()
           ..add(
@@ -34,7 +35,8 @@ void main() {
           ),
       );
       print(test2.toString());
-
+      */
+      /*
       List<Tupl<String, Termtype<String>>> test3 = u.unify(
         new List()
           ..add(
@@ -46,7 +48,8 @@ void main() {
       );
 
       print(test3.toString());
-
+      */
+      /*
       var a = new Term<String>(
         "a",
         [
@@ -77,6 +80,7 @@ void main() {
       } on Exception catch (e) {
         print("Exception in Test: $e");
       }
+      */
     });
   });
 }
