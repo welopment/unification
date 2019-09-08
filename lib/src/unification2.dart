@@ -3,13 +3,11 @@ import 'terms.dart';
 export 'terms.dart';
 
 /// not trampolined version
-/// diese funtioniert und ist das vorbild für die mit Tramp, 
+/// diese funtioniert und ist das vorbild für die mit Tramp,
 /// die noch nicht funktionert
 
- 
- 
 /// occurs check
-class Unification<A> {
+class UnificationH<A> {
   bool occurs(A x, Termtype<A> t) {
     if (t is Var) {
       A y = t.id;

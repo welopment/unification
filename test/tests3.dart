@@ -1,12 +1,15 @@
-/*
-import "package:test/test.dart";
 
-import "../lib/src/unification3.dart";
+import "package:test/test.dart";
+import "package:unification/src/unification3.dart";
+
 
 void main() {
+    UnificationR<String> u = new UnificationR<String>();
+
+
   group("Property", () {
     test("Property.value: get, set ", () {
-      var test1 = unify(
+      var test1 = u.unify(
         new List()
           ..add(
             new Tupl(
@@ -18,7 +21,7 @@ void main() {
        
       print(test1.toString());
 
-      var test2 = unify(
+      var test2 = u.unify(
         new List()
           ..add(
             new Tupl(
@@ -29,7 +32,7 @@ void main() {
       );
       print(test2.toString());
 
-      var test3 = unify(
+      var test3 = u.unify(
         new List()
           ..add(
             new Tupl(
@@ -45,7 +48,7 @@ void main() {
         "a",
         [
           new Var("b"),
-          new Term("x", []),
+          new Term("x",  <Termtype<String>>[]),
           new Var("b"),
         ],
       );
@@ -59,13 +62,13 @@ void main() {
               new Var("z"),
             ],
           ),
-          new Term("x", []),
+          new Term<String>("x", <Termtype<String>>[]),
           new Var("z1"), // z
         ],
       );
 
       try {
-        List<Tupl<String, Termtype>> ur = unify([new Tupl(a, b)]);
+        List<Tupl<String, Termtype>> ur = u.unify([new Tupl(a, b)]);
         List<Tupl<String, Termtype>> res = ur;
         print("\n" + res.toString() + "\n");
       } on Exception catch (e) {
@@ -74,4 +77,4 @@ void main() {
     });
   });
 }
- */
+

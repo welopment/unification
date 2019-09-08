@@ -208,13 +208,10 @@ class Unification<A> {
 }
 
 void main() {
-  var u = new Unification<String>();
+  Unification<String> u = new Unification<String>();
 
   List<Tupl<String, Termtype<String>>> res2 =
       u.unify([Tupl(Var("a"), Var("b"))]);
 
   //print();
 }
-
-// Cont<Termtype<String>, List<Tupl<String, Termtype<String>>>>'
-// Cont<List<Tupl<String, Termtype<String>>>, List<Tupl<String, Termtype<String>>>>'

@@ -2,7 +2,8 @@ import "package:test/test.dart";
 import "package:unification/src/unification2.dart";
 
 void main() {
-  var u = Unification<String>();
+  UnificationH<String> u = new UnificationH<String>();
+
   group("Test", () {
     test("two variables", () {
       var test1 = u.unify(
