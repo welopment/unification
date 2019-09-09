@@ -4,7 +4,7 @@ import 'terms.dart';
 export 'terms.dart';
 
 /// trampolined version
-/// 
+///
 class Unification<A> {
   /// occurs check
   TailRec<bool> occurs(A x, Termtype<A> t) {

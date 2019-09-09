@@ -1,11 +1,9 @@
-
 import "package:test/test.dart";
 import "package:unification/src/unification1.dart";
 // test for not trampolined version
 
 void main() {
-    UnificationR<String> u = new UnificationR<String>();
-
+  UnificationR<String> u = new UnificationR<String>();
 
   group("Property", () {
     test("Property.value: get, set ", () {
@@ -18,7 +16,7 @@ void main() {
             ),
           ),
       );
-       
+
       print(test1.toString());
 
       var test2 = u.unify(
@@ -48,7 +46,7 @@ void main() {
         "a",
         [
           new Var("b"),
-          new Term("x",  <Termtype<String>>[]),
+          new Term("x", <Termtype<String>>[]),
           new Var("b"),
         ],
       );
@@ -77,4 +75,3 @@ void main() {
     });
   });
 }
-

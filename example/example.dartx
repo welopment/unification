@@ -5,7 +5,7 @@ void main() {
   var res1 = unify(
     List()
       ..add(
-        new Tupl<Var<String>,Var<String>>(
+        new Tupl<Var<String>, Var<String>>(
           new Var("a"),
           new Var("a"),
         ),

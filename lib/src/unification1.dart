@@ -5,7 +5,6 @@ export 'terms.dart';
 /// not trampolined version
 /// without helper functions
 
-
 /// reusing unify_one in two branches Term Var -> Var Term
 
 class UnificationR<A> {

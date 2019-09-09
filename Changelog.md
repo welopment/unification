@@ -33,3 +33,5 @@
  ## 0.1.5
  - Fixed issues related to generics.
 
+ ## 0.1.6
+ - Fixed issues related to version 2.4.1 of Dart.
