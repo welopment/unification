@@ -35,3 +35,6 @@
 
  ## 0.1.6
  - Fixed issues related to version 2.4.1 of Dart.
+
+## 0.1.7
+ - Fixed issues reported by pana.

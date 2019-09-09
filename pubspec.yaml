@@ -1,5 +1,5 @@
 name: "unification"
-version: "0.1.6"
+version: "0.1.7"
 author: "Michael Bürgerling <michael.buergerling@gmail.com>"
 description: "Unification is an implementation of logical first-order unification. It follows Robinson's algorithm, and uses trampolining to avoid stack size limitation issues."
 homepage: "https://github.com/welopment/unification"
@@ -7,9 +7,9 @@ environment:
   sdk: '>=1.8.0 <3.0.0'
 
 dependencies:
-  #tailcalls: ^0.1.1
-  tailcalls: 
-    path: ../tailcall
+  tailcalls: ^0.1.3
+  #tailcalls: 
+  #  path: ../tailcall
 
 dev_dependencies:
   test: '1.6.3' 

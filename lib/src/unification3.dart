@@ -184,6 +184,8 @@ class Unification<A> {
 void main() {
   Unification<String> u = new Unification<String>();
 
-  List<Tupl<String, Termtype<String>>> res2 =
+  List<Tupl<String, Termtype<String>>> res =
       u.unify([Tupl(Var("a"), Var("b"))]);
+
+  print("Result  ${res}");
 }

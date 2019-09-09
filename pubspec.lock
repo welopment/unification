@@ -284,9 +284,9 @@ packages:
   tailcalls:
     dependency: "direct main"
     description:
-      path: "../tailcall"
-      relative: true
-    source: path
+      name: tailcalls
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "0.1.3"
   term_glyph:
     dependency: transitive
