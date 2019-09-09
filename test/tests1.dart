@@ -1,46 +1,38 @@
+
 import "package:test/test.dart";
-import "package:tailcalls/tailcalls.dart";
 import "package:unification/src/unification1.dart";
+// test for not trampolined version
 
 void main() {
-  Unification<String> u = new Unification<String>();
+    UnificationR<String> u = new UnificationR<String>();
 
-  group("Unification (trampolined version)", () {
-    test("zwei Variablen", () {
-      var test1 = u.unifyTc(
+
+  group("Property", () {
+    test("Property.value: get, set ", () {
+      var test1 = u.unify(
         new List()
           ..add(
-            new Tupl<Termtype<String>, Termtype<String>>(
+            new Tupl(
               new Var("a"),
               new Var("b"),
             ),
           ),
       );
-      List<Tupl<String, Termtype<String>>> res = test1.result();
-      print(res.toString());
-    });
+       
+      print(test1.toString());
 
-    test("Keine Variablen nur Terme", () {
-      List<Tupl<String, Termtype<String>>> test2 = u.unify(
-        new List<Tupl<Termtype<String>, Termtype<String>>>()
+      var test2 = u.unify(
+        new List()
           ..add(
-            new Tupl<Term<String>, Term<String>>(
-              new Term<String>("b0", [
-                new Term<String>("b1", new List<Termtype<String>>()),
-                new Term<String>("b2", <Termtype<String>>[])
-              ]),
-              new Term<String>("b0", [
-                new Term<String>("b1", <Termtype<String>>[]),
-                new Term<String>("b2", <Termtype<String>>[])
-              ]),
+            new Tupl(
+              new Term("b0", [new Term("b1", []), new Term("b2", [])]),
+              new Term("b0", [new Term("b1", []), new Term("b2", [])]),
             ),
           ),
       );
       print(test2.toString());
-    });
 
-    test(" Variable und Term ", () {
-      List<Tupl<String, Termtype<String>>> test3 = u.unify(
+      var test3 = u.unify(
         new List()
           ..add(
             new Tupl(
@@ -51,13 +43,12 @@ void main() {
       );
 
       print(test3.toString());
-    });
-    test("Zirkulariät", () {
-      var a = new Term<String>(
+
+      var a = new Term(
         "a",
         [
           new Var("b"),
-          new Term<String>("x", <Termtype<String>>[]),
+          new Term("x",  <Termtype<String>>[]),
           new Var("b"),
         ],
       );
@@ -72,13 +63,13 @@ void main() {
             ],
           ),
           new Term<String>("x", <Termtype<String>>[]),
-          new Var("z"), // z
+          new Var("z1"), // z
         ],
       );
 
       try {
-        var ur = u.unify([new Tupl(a, b)]);
-        List<Tupl<String, Termtype<String>>> res = ur;
+        List<Tupl<String, Termtype>> ur = u.unify([new Tupl(a, b)]);
+        List<Tupl<String, Termtype>> res = ur;
         print("\n" + res.toString() + "\n");
       } on Exception catch (e) {
         print("Exception in Test: $e");
@@ -86,3 +77,4 @@ void main() {
     });
   });
 }
+

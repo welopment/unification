@@ -3,8 +3,7 @@ import 'terms.dart';
 export 'terms.dart';
 
 /// not trampolined version
-/// diese funtioniert und ist das vorbild für die mit Tramp,
-/// die noch nicht funktionert
+/// with helpers
 
 /// occurs check
 class UnificationH<A> {
@@ -64,13 +63,8 @@ class UnificationH<A> {
     } else {
       var lh = l.first;
       var lt = l.sublist(1);
-      assert(lh != null);
-      assert(lt != null);
-      // for
       var right = _mp(s, x, lt);
-
       var left = _subst(s, x, lh);
-
       var res = [left];
       res.addAll(right);
       return res;
@@ -177,17 +171,3 @@ class UnificationH<A> {
     }
   }
 }
-/*
-void main1() {
-  var u = new Unification<String>();
-  var res1 = u.unify([Tupl(Var("a"), Var("b"))]);
-  print(res1);
-
-  List<Tupl<String, Termtype<String>>> res2 = u.unify([
-    Tupl<Termtype<String>, Termtype<String>>(Var<String>("a"), Var<String>("b"))
-  ]);
-  print(res2);
-
-  //List<Tupl<String, Termtype>>
-}
-*/
