@@ -1,2 +1,8 @@
-.packages
+log
 .dart_tool
+.vscode/*
+.packages
+pubspec.lock
+tailcalls.code-workspace
+lib/tailcalls.archiv.tar.xz
+.gitignore

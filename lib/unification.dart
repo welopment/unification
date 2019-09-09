@@ -8,6 +8,5 @@ import 'src/terms.dart';
 export 'src/utils.dart';
 export 'src/terms.dart';
 
-import  'src/unification1.dart' show Unification , Term, Var, Tupl;
-
-export './src/unification1.dart' show Unification , Term, Var, Tupl;
+import 'src/unification1.dart' show Unification, Term, Var, Tupl;
+export 'src/unification1.dart' show Unification, Term, Var, Tupl;

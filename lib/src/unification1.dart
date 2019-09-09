@@ -165,7 +165,8 @@ class Unification<A> {
       return done([new Tupl(x, t)]).map((right) {
         List<Tupl<A, Termtype<A>>> innerres;
         if (left) {
-          throw new Exception("Not unifiable: Circularity");
+        // print("not");/// ToDo
+        throw new Exception("Not unifiable: Circularity");
         } else {
           innerres = right;
         }

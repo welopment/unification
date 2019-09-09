@@ -6,7 +6,6 @@ void main() {
   Unification<String> u = new Unification<String>();
 
   group("Unification (trampolined version)", () {
-  
     test("zwei Variablen", () {
       var test1 = u.unifyTc(
         new List()
@@ -19,7 +18,9 @@ void main() {
       );
       List<Tupl<String, Termtype<String>>> res = test1.result();
       print(res.toString());
-      
+    });
+
+    test("Keine Variablen nur Terme", () {
       List<Tupl<String, Termtype<String>>> test2 = u.unify(
         new List<Tupl<Termtype<String>, Termtype<String>>>()
           ..add(
@@ -36,7 +37,9 @@ void main() {
           ),
       );
       print(test2.toString());
-  
+    });
+
+    test(" Variable und Term ", () {
       List<Tupl<String, Termtype<String>>> test3 = u.unify(
         new List()
           ..add(
@@ -48,7 +51,8 @@ void main() {
       );
 
       print(test3.toString());
-    
+    });
+    test("Zirkulariät", () {
       var a = new Term<String>(
         "a",
         [
@@ -72,14 +76,13 @@ void main() {
         ],
       );
 
-      var ur = u.unify([new Tupl(a, b)]);
       try {
-        List<Tupl<String, Termtype<String>>> res = ur; 
+        var ur = u.unify([new Tupl(a, b)]);
+        List<Tupl<String, Termtype<String>>> res = ur;
         print("\n" + res.toString() + "\n");
       } on Exception catch (e) {
         print("Exception in Test: $e");
       }
-      
     });
   });
 }
