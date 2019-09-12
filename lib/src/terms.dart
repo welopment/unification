@@ -3,58 +3,46 @@
 ///  terms
 ///
 
-abstract class Termtype<T> {
-  T _id;
-
-  T get id => this._id;
-
-  @override
-  bool operator ==(dynamic other) {
-    if (other is Termtype<T>) {
-      return this._id == other._id;
-    } else {
-      return false;
-    }
-  }
+abstract class Termtype<T, U> {
 }
 
-///
+/// T ist der Name der Variablen, U ist ungenutzt, der Wert, der zugewiesen wird. 
 
-class Var<T> extends Termtype<T> {
-  Var(T i) : assert(i != null) {
+class Var<T, U> extends Termtype<T, U> {
+  Var(T i)  {
     this._id = i;
   }
+ T _id;
+
+  T get id => this._id;
 
   @override
   String toString() {
     return "Var(${this.id.toString()})";
   }
 
-  @override
-  bool operator ==(dynamic other) {
-    if (other is Termtype<T>) {
-      return this._id == other._id;
-    } else {
-      return false;
-    }
-  }
+
 
   @override
   int get hashCode => this._id.hashCode;
 }
 
-///
+/// Var("a"), Term("F", [Var("a"), Var("b")])    F(a, b)
+/// U ist der Nutzwert des Terms, T ist der Name, eher ungenutzt . 
+/// T ist der Name der Variablen, U ist ungenutzt, der Nutzwert, der zugewiesen wird. 
 
-class Term<T> extends Termtype<T> {
-  Term(T i, List<Termtype<T>> t)
-      : assert(i != null),
-        assert(t != null) {
+class Term<U, T> extends Termtype<T, U> {
+  Term(U i, List<Termtype<T, U>> t, { T  name})
+      {
     this._id = i;
     this._termlist = t;
   }
+  U _id;
 
-  List<Termtype<T>> _termlist;
-  List<Termtype<T>> get termlist => this._termlist;
+  U get id => this._id;
+
+  List<Termtype<T, U>> _termlist;
+  List<Termtype<T, U>> get termlist => this._termlist;
 
   @override
   String toString() {
@@ -63,7 +51,8 @@ class Term<T> extends Termtype<T> {
 
   @override
   bool operator ==(dynamic other) {
-    if (other is Termtype<T>) {
+    // better solution
+    if (other is Term<T, U> || other is Var<T,U>) {
       return this._id == other._id;
     } else {
       return false;
@@ -75,8 +64,7 @@ class Term<T> extends Termtype<T> {
 
 class Tupl<L, R> {
   Tupl(L left, R right)
-      : assert(left != null),
-        assert(right != null) {
+      {
     /// Remove
     if (left == null) {
       throw new Exception("Tupl: left is null");

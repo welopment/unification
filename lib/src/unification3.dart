@@ -5,14 +5,14 @@ export 'terms.dart';
 
 /// trampolined version
 ///
-class Unification<A> {
+class Unification<A, B> {
   /// occurs check
-  TailRec<bool> occurs(A x, Termtype<A> t) {
-    if (t is Var<A>) {
+  TailRec<bool> occurs(A x, Termtype<A,B>  t) {
+    if (t is Var<A,B> ) {
       A y = t.id;
       return done(x == y);
-    } else if (t is Term<A>) {
-      List<Termtype<A>> s = t.termlist;
+    } else if (t is Term<B,A> ) {
+      List<Termtype<A,B> > s = t.termlist;
       return tailcall(() => _exsts(s, x));
     } else if (x == null || t == null) {
       throw new Exception("occurs: Variable name or Term is null");
@@ -23,12 +23,12 @@ class Unification<A> {
 
   /// helper fuction for occurs check
 
-  TailRec<bool> _exsts(List<Termtype<A>> l, A target) {
+  TailRec<bool> _exsts(List<Termtype<A,B> > l, A target) {
     if (l.isEmpty) {
       return done(false);
     } else {
-      Termtype<A> lh = l.first;
-      List<Termtype<A>> lt = l.sublist(1);
+      Termtype<A,B>  lh = l.first;
+      List<Termtype<A,B> > lt = l.sublist(1);
       return tailcall(() => _exsts(lt, target)).flatMap((right) {
         return tailcall(() => occurs(target, lh)).map((left) {
           return (left || right);
@@ -39,18 +39,18 @@ class Unification<A> {
 
   /// [_subst] substitution
 
-  TailRec<Termtype<A>> _subst(Termtype<A> s, A x, Termtype<A> t) {
-    if (t is Var<A>) {
+  TailRec<Termtype<A,B> > _subst(Termtype<A,B>  s, A x, Termtype<A,B>  t) {
+    if (t is Var<A,B> ) {
       if (x == t.id) {
         return done(s);
       } else {
         return done(t);
       }
-    } else if (t is Term<A>) {
-      A f = t.id;
-      List<Termtype<A>> u = t.termlist;
+    } else if (t is Term<B,A> ) {
+      B f = t.id;
+      List<Termtype<A,B> > u = t.termlist;
       return tailcall(() => _mp(s, x, u)).map((right) {
-        return new Term<A>(f, right);
+        return new Term<B,A> (f, right);
       });
     } else {
       throw new Exception("Substitution: #2");
@@ -59,10 +59,10 @@ class Unification<A> {
 
   /// [_mp] is a helper function for Lists of terms
 
-  TailRec<List<Termtype<A>>> _mp(Termtype<A> s, A x, List<Termtype<A>> l) {
+  TailRec<List<Termtype<A,B> >> _mp(Termtype<A,B>  s, A x, List<Termtype<A,B> > l) {
     assert(l != null);
     if (l.isEmpty) {
-      return done<List<Termtype<A>>>(new List<Termtype<A>>());
+      return done<List<Termtype<A,B> >>(new List<Termtype<A,B> >());
     } else {
       var lh = l.first;
       var lt = l.sublist(1);
@@ -78,15 +78,15 @@ class Unification<A> {
 
   /// [_apply] applies substitution
 
-  TailRec<Termtype<A>> _apply(List<Tupl<A, Termtype<A>>> ths, Termtype<A> z) {
+  TailRec<Termtype<A,B> > _apply(List<Tupl<A, Termtype<A,B> >> ths, Termtype<A,B>  z) {
     if (ths.isEmpty) {
-      return done<Termtype<A>>(z);
+      return done<Termtype<A,B> >(z);
     } else {
-      Tupl<A, Termtype<A>> first = ths.first;
+      Tupl<A, Termtype<A,B> > first = ths.first;
       A x = first.left;
-      Termtype<A> u = first.right;
-      List<Tupl<A, Termtype<A>>> xs = ths.sublist(1);
-      return tailcall(() => _apply(xs, z)).flatMap((Termtype<A> apd) {
+      Termtype<A,B>  u = first.right;
+      List<Tupl<A, Termtype<A,B> >> xs = ths.sublist(1);
+      return tailcall(() => _apply(xs, z)).flatMap((Termtype<A,B>  apd) {
         return tailcall(() => _subst(u, x, apd)).map((right) {
           return right;
         });
@@ -96,41 +96,41 @@ class Unification<A> {
 
   /// [_unify_one] unifies two ingle Termtypes, one by one
 
-  TailRec<List<Tupl<A, Termtype<A>>>> _unify_one(Termtype<A> s, Termtype<A> t) {
+  TailRec<List<Tupl<A, Termtype<A,B> >>> _unify_one(Termtype<A,B>  s, Termtype<A,B>  t) {
     if (s == null || t == null) {
       throw new Exception("Occurs Check: Termtype is null");
-    } else if (s is Var<A> && t is Var<A>) {
+    } else if (s is Var<A,B>  && t is Var<A,B> ) {
       var x = s.id;
       var y = t.id;
 
       if (x == y) {
-        return done<List<Tupl<A, Termtype<A>>>>(
-            new List<Tupl<A, Termtype<A>>>());
+        return done<List<Tupl<A, Termtype<A,B> >>>(
+            new List<Tupl<A, Termtype<A,B> >>());
       } else {
-        return done<List<Tupl<A, Termtype<A>>>>(new List<Tupl<A, Termtype<A>>>()
-          ..add(new Tupl<A, Termtype<A>>(x, t)));
+        return done<List<Tupl<A, Termtype<A,B> >>>(new List<Tupl<A, Termtype<A,B> >>()
+          ..add(new Tupl<A, Termtype<A,B> >(x, t)));
       }
-    } else if (s is Term<A> && t is Term<A>) {
-      A f = s.id;
-      List<Termtype<A>> sc = s.termlist;
+    } else if (s is Term<B,A>  && t is Term<B,A> ) {
+      B f = s.id;
+      List<Termtype<A,B> > sc = s.termlist;
 
-      A g = t.id;
-      List<Termtype<A>> tc = t.termlist;
+      B g = t.id;
+      List<Termtype<A,B> > tc = t.termlist;
 
       if ((f == g) && (sc.length == tc.length)) {
-        List<Tupl<Termtype<A>, Termtype<A>>> zpd =
-            zip<Termtype<A>, Tupl<Termtype<A>, Termtype<A>>>(
+        List<Tupl<Termtype<A,B> , Termtype<A,B> >> zpd =
+            zip<Termtype<A,B> , Tupl<Termtype<A,B> , Termtype<A,B> >>(
                 sc,
                 tc,
                 (left, right) =>
-                    new Tupl<Termtype<A>, Termtype<A>>(left, right));
+                    new Tupl<Termtype<A,B> , Termtype<A,B> >(left, right));
         return tailcall(() => unifyTc(zpd));
       } else {
         throw new Exception("Not unifiable: #1");
       }
-    } else if (s is Var<A> && t is Term<A>) {
+    } else if (s is Var<A,B>  && t is Term<B,A> ) {
       return _unifyhelper(t, s.id);
-    } else if (s is Term<A> && t is Var<A>) {
+    } else if (s is Term<B,A>  && t is Var<A,B> ) {
       return _unifyhelper(s, t.id);
     } else {
       throw new Exception("Not unifiable: #2");
@@ -139,10 +139,10 @@ class Unification<A> {
 
   /// [_unifyhelper] helper function for [unify_one]
 
-  TailRec<List<Tupl<A, Termtype<A>>>> _unifyhelper(Termtype<A> t, A x) {
+  TailRec<List<Tupl<A, Termtype<A,B> >>> _unifyhelper(Termtype<A,B>  t, A x) {
     return tailcall(() => occurs(x, t)).flatMap((left) {
       return done([new Tupl(x, t)]).map((right) {
-        List<Tupl<A, Termtype<A>>> innerres;
+        List<Tupl<A, Termtype<A,B> >> innerres;
         if (left) {
           throw new Exception("Not unifiable: Circularity");
         } else {
@@ -155,14 +155,14 @@ class Unification<A> {
 
   /// unify a list of terms
 
-  TailRec<List<Tupl<A, Termtype<A>>>> unifyTc(
-      List<Tupl<Termtype<A>, Termtype<A>>> s) {
+  TailRec<List<Tupl<A, Termtype<A,B> >>> unifyTc(
+      List<Tupl<Termtype<A,B> , Termtype<A,B> >> s) {
     if (s.isEmpty) {
-      return done<List<Tupl<A, Termtype<A>>>>(new List<Tupl<A, Termtype<A>>>());
+      return done<List<Tupl<A, Termtype<A,B> >>>(new List<Tupl<A, Termtype<A,B> >>());
     } else {
-      Termtype<A> x = s.first.left;
-      Termtype<A> y = s.first.right;
-      List<Tupl<Termtype<A>, Termtype<A>>> t = s.sublist(1);
+      Termtype<A,B>  x = s.first.left;
+      Termtype<A,B>  y = s.first.right;
+      List<Tupl<Termtype<A,B> , Termtype<A,B> >> t = s.sublist(1);
       return tailcall(() => unifyTc(t)).flatMap((t2) {
         return tailcall(() => _apply(t2, x)).flatMap((left) {
           return tailcall(() => _apply(t2, y)).flatMap((right) {
@@ -176,15 +176,15 @@ class Unification<A> {
     }
   }
 
-  List<Tupl<A, Termtype<A>>> unify(List<Tupl<Termtype<A>, Termtype<A>>> s) {
+  List<Tupl<A, Termtype<A,B> >> unify(List<Tupl<Termtype<A,B> , Termtype<A,B> >> s) {
     return unifyTc(s).result();
   }
 }
 
 void main() {
-  Unification<String> u = new Unification<String>();
+  Unification<String, String> u = new Unification<String, String>();
 
-  List<Tupl<String, Termtype<String>>> res =
+  List<Tupl<String, Termtype<String, String>>> res =
       u.unify([Tupl(Var("a"), Var("b"))]);
 
   print("Result  ${res}");

@@ -3,7 +3,7 @@ import "package:unification/src/unification1.dart";
 // test for not trampolined version
 
 void main() {
-  UnificationR<String> u = new UnificationR<String>();
+  UnificationR<String, String> u = new UnificationR<String, String>();
 
   group("Property", () {
     test("Property.value: get, set ", () {
@@ -42,16 +42,16 @@ void main() {
 
       print(test3.toString());
 
-      var a = new Term(
+      var a = new Term<String, String>(
         "a",
         [
-          new Var("b"),
-          new Term("x", <Termtype<String>>[]),
+          new Var<String, String>("b"),
+          new Term("x", <Termtype<String, String>>[]),
           new Var("b"),
         ],
       );
 
-      var b = new Term(
+      var b = new Term<String, String>(
         "a",
         [
           new Term(
@@ -60,7 +60,7 @@ void main() {
               new Var("z"),
             ],
           ),
-          new Term<String>("x", <Termtype<String>>[]),
+          new Term<String, String>("x", <Termtype<String, String>>[]),
           new Var("z1"), // z
         ],
       );
