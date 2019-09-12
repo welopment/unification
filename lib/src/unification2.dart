@@ -8,10 +8,10 @@ export 'terms.dart';
 /// occurs check
 class UnificationH<A, B> {
   bool occurs(A x, Termtype<A, B> t) {
-    if (t is Var<A,B>) {
-      A y = t .id;
+    if (t is Var<A, B>) {
+      A y = t.id;
       return (x == y);
-    } else if (t is Term<B,A>) {
+    } else if (t is Term<B, A>) {
       List<Termtype<A, B>> s = t.termlist;
       return _exsts(s, x);
     } else if (x == null || t == null) {
@@ -38,17 +38,17 @@ class UnificationH<A, B> {
   /// substitution
 
   Termtype<A, B> _subst(Termtype<A, B> s, A x, Termtype<A, B> t) {
-    if (t is Var<A,B>) {
+    if (t is Var<A, B>) {
       if (x == t.id) {
         return (s);
       } else {
         return (t);
       }
-    } else if (t is Term<B,A>) {
+    } else if (t is Term<B, A>) {
       B f = t.id;
       List<Termtype<A, B>> u = t.termlist;
       List<Termtype<A, B>> right = _mp(s, x, u);
-      return new Term<B,A>(f, right);
+      return new Term<B, A>(f, right);
     } else {
       throw new Exception("Subst: Unbehandelter Fall");
     }
@@ -85,7 +85,7 @@ class UnificationH<A, B> {
 
       Termtype<A, B> apd = _apply(xs, z);
 
-      if (apd is Term<B,A>) {
+      if (apd is Term<B, A>) {
         assert(apd.id != null);
       }
       Termtype<A, B> right = _subst(u, x, apd);
@@ -98,7 +98,7 @@ class UnificationH<A, B> {
   List<Tupl<A, Termtype<A, B>>> _unify_one(Termtype<A, B> s, Termtype<A, B> t) {
     if (s == null || t == null) {
       throw new Exception("occurs: Termtype is null");
-    } else if (s is Var<A,B> && t is Var<A,B>) {
+    } else if (s is Var<A, B> && t is Var<A, B>) {
       var x = s.id;
       var y = t.id;
 
@@ -108,7 +108,7 @@ class UnificationH<A, B> {
         return new List<Tupl<A, Termtype<A, B>>>()
           ..add(new Tupl<A, Termtype<A, B>>(x, t));
       }
-    } else if (s is Term<B,A> && t is Term<B,A>) {
+    } else if (s is Term<B, A> && t is Term<B, A>) {
       B f = s.id;
       List<Termtype<A, B>> sc = s.termlist;
 
@@ -127,9 +127,9 @@ class UnificationH<A, B> {
       } else {
         throw new Exception("Not unifiable #1");
       }
-    } else if (s is Var<A,B> && t is Term<B,A>) {
+    } else if (s is Var<A, B> && t is Term<B, A>) {
       return _unifyhelper(t, s.id);
-    } else if (s is Term<B,A> && t is Var<A,B> ) {
+    } else if (s is Term<B, A> && t is Var<A, B>) {
       return _unifyhelper(s, t.id);
     } else {
       throw new Exception("Not unifiable #2");
@@ -154,7 +154,8 @@ class UnificationH<A, B> {
 
   /// unify a list of terms
 
-  List<Tupl<A, Termtype<A, B>>> unify(List<Tupl<Termtype<A, B>, Termtype<A, B>>> s) {
+  List<Tupl<A, Termtype<A, B>>> unify(
+      List<Tupl<Termtype<A, B>, Termtype<A, B>>> s) {
     if (s.isEmpty) {
       return (new List<Tupl<A, Termtype<A, B>>>());
     } else {

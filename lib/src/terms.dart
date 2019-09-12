@@ -3,16 +3,15 @@
 ///  terms
 ///
 
-abstract class Termtype<T, U> {
-}
+abstract class Termtype<T, U> {}
 
-/// T ist der Name der Variablen, U ist ungenutzt, der Wert, der zugewiesen wird. 
+/// T ist der Name der Variablen, U ist ungenutzt, der Wert, der zugewiesen wird.
 
 class Var<T, U> extends Termtype<T, U> {
-  Var(T i)  {
+  Var(T i) {
     this._id = i;
   }
- T _id;
+  T _id;
 
   T get id => this._id;
 
@@ -21,19 +20,16 @@ class Var<T, U> extends Termtype<T, U> {
     return "Var(${this.id.toString()})";
   }
 
-
-
   @override
   int get hashCode => this._id.hashCode;
 }
 
 /// Var("a"), Term("F", [Var("a"), Var("b")])    F(a, b)
-/// U ist der Nutzwert des Terms, T ist der Name, eher ungenutzt . 
-/// T ist der Name der Variablen, U ist ungenutzt, der Nutzwert, der zugewiesen wird. 
+/// U ist der Nutzwert des Terms, T ist der Name, eher ungenutzt .
+/// T ist der Name der Variablen, U ist ungenutzt, der Nutzwert, der zugewiesen wird.
 
 class Term<U, T> extends Termtype<T, U> {
-  Term(U i, List<Termtype<T, U>> t, { T  name})
-      {
+  Term(U i, List<Termtype<T, U>> t, {T name}) {
     this._id = i;
     this._termlist = t;
   }
@@ -52,7 +48,7 @@ class Term<U, T> extends Termtype<T, U> {
   @override
   bool operator ==(dynamic other) {
     // better solution
-    if (other is Term<T, U> || other is Var<T,U>) {
+    if (other is Term<T, U> || other is Var<T, U>) {
       return this._id == other._id;
     } else {
       return false;
@@ -63,8 +59,7 @@ class Term<U, T> extends Termtype<T, U> {
 /// utility
 
 class Tupl<L, R> {
-  Tupl(L left, R right)
-      {
+  Tupl(L left, R right) {
     /// Remove
     if (left == null) {
       throw new Exception("Tupl: left is null");

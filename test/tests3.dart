@@ -42,7 +42,7 @@ void main() {
     });
 
     test(" Variable und Term ", () {
-      List<Tupl<String, Termtype<String,  String>>> test3 = u.unify(
+      List<Tupl<String, Termtype<String, String>>> test3 = u.unify(
         new List()
           ..add(
             new Tupl(

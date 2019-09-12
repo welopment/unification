@@ -1,3 +1,4 @@
+import 'package:unification/src/terms.dart';
 import 'package:unification/unification.dart';
 import 'dart:collection';
 
@@ -14,7 +15,7 @@ void main() {
       ),
   );
 
-  var res2 = u.unify(
+  List<Tupl<String, Termtype<String, String>>> res2 = u.unify(
     List<Tupl<Var<String, String>, Var<String, String>>>()
       ..add(
         new Tupl(

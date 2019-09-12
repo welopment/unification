@@ -76,7 +76,10 @@ void main() {
       );
 
       try {
-        List<Tupl<String, Termtype<String, String>>> ur = u.unify(<Tupl<Termtype<String, String>, Termtype<String, String>>>[new Tupl(a, b)]);
+        List<Tupl<String, Termtype<String, String>>> ur = u
+            .unify(<Tupl<Termtype<String, String>, Termtype<String, String>>>[
+          new Tupl(a, b)
+        ]);
         List<Tupl<String, Termtype<String, String>>> res = ur;
         print("\n" + res.toString() + "\n");
       } on Exception catch (e) {

@@ -38,3 +38,8 @@
 
 ## 0.1.7
  - Fixed issues reported by pana.
+
+
+## 0.1.8
+ - Introduced split type variable for Var and Term.
+ - Refactored Termtype. 
