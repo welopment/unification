@@ -8,9 +8,7 @@ abstract class Termtype<T, U> {}
 /// T ist der Name der Variablen, U ist ungenutzt, der Wert, der zugewiesen wird.
 
 class Var<T, U> extends Termtype<T, U> {
-  Var(T i) {
-    this._id = i;
-  }
+  Var(T i) : this._id = i;
   T _id;
 
   T get id => this._id;
@@ -29,10 +27,9 @@ class Var<T, U> extends Termtype<T, U> {
 /// T ist der Name der Variablen, U ist ungenutzt, der Nutzwert, der zugewiesen wird.
 
 class Term<U, T> extends Termtype<T, U> {
-  Term(U i, List<Termtype<T, U>> t, {T name}) {
-    this._id = i;
-    this._termlist = t;
-  }
+  Term(U i, List<Termtype<T, U>> t, {T? name})
+      : this._id = i,
+        this._termlist = t;
   U _id;
 
   U get id => this._id;
@@ -59,21 +56,9 @@ class Term<U, T> extends Termtype<T, U> {
 /// utility
 
 class Tupl<L, R> {
-  Tupl(L left, R right) {
-    /// Remove
-    if (left == null) {
-      throw new Exception("Tupl: left is null");
-    } else {
-      this._left = left;
-    }
-
-    /// Remove
-    if (right == null) {
-      throw new Exception("Tupl: right is null");
-    } else {
-      this._right = right;
-    }
-  }
+  Tupl(L left, R right)
+      : this._left = left,
+        this._right = right;
   L _left;
   R _right;
   L get left => this._left;

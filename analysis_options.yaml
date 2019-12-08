@@ -8,6 +8,12 @@ analyzer:
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
+
+
+  enable-experiment:
+    - non-nullable
+    - extension-methods
+
 linter:
   rules:
     - camel_case_types

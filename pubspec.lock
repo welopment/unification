@@ -316,6 +316,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.5"
+  trampoline:
+    dependency: "direct main"
+    description:
+      path: "../trampoline"
+      relative: true
+    source: path
+    version: "0.1.2"
   typed_data:
     dependency: transitive
     description:

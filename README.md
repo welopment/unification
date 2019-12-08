@@ -22,11 +22,11 @@ import "package:tailcalls/tailcalls.dart";
 import "package:unification/unification.dart";
 
 var test = unify(
-      new List()
+        List()
         ..add(
-          new Tupl(
-            new Term("b0", [new Term("b1", []),new Term("b2", [])]),
-            new Term("b0", [new Term("b1", []),new Term("b2", [])]),
+            Tupl(
+              Term("b0", [  Term("b1", []),  Term("b2", [])]),
+              Term("b0", [  Term("b1", []),  Term("b2", [])]),
           ),
         ),
     ).result();
