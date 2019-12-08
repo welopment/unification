@@ -322,7 +322,7 @@ packages:
       path: "../trampoline"
       relative: true
     source: path
-    version: "0.1.2"
+    version: "1.0.0"
   typed_data:
     dependency: transitive
     description:
