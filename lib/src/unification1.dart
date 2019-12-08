@@ -20,9 +20,9 @@ class UnificationR<A, B> {
       List<Termtype<A, B>> s = t.termlist;
       return _exsts(s, x);
     } else if (x == null || t == null) {
-      throw Exception( 'occurs: Variable name  or Termtype is null ');
+      throw Exception('occurs: Variable name  or Termtype is null ');
     } else {
-      throw Exception( 'occurs: Unknown Exception ');
+      throw Exception('occurs: Unknown Exception ');
     }
   }
 
@@ -57,7 +57,7 @@ class UnificationR<A, B> {
       List<Termtype<A, B>> right = _mp(s, x, u);
       return Term<B, A>(f, right);
     } else {
-      throw Exception( 'Subst: Unbehandelter Fall ');
+      throw Exception('Subst: Unbehandelter Fall ');
     }
   }
 
@@ -116,7 +116,7 @@ class UnificationR<A, B> {
 
   List<Tupl<A, Termtype<A, B>>> _unify_one(Termtype<A, B> s, Termtype<A, B> t) {
     if (s == null || t == null) {
-      throw Exception( 'occurs: Termtype is null ');
+      throw Exception('occurs: Termtype is null ');
       // Zwei Variablen
     } else if (s is Var<A, B> && t is Var<A, B>) {
       var x = s.id;
@@ -125,8 +125,7 @@ class UnificationR<A, B> {
       if (x == y) {
         return <Tupl<A, Termtype<A, B>>>[];
       } else {
-        return <Tupl<A, Termtype<A, B>>>[]
-          ..add(Tupl<A, Termtype<A, B>>(x, t));
+        return <Tupl<A, Termtype<A, B>>>[]..add(Tupl<A, Termtype<A, B>>(x, t));
       }
       // Zwei Terme
     } else if (s is Term<B, A> && t is Term<B, A>) {
@@ -145,7 +144,7 @@ class UnificationR<A, B> {
 
         return unify(zpd);
       } else {
-        throw Exception( 'Not unifiable #1 ');
+        throw Exception('Not unifiable #1 ');
       }
     } else if (s is Var<A, B> && t is Term<B, A>) {
       A x = s.id;
@@ -154,7 +153,7 @@ class UnificationR<A, B> {
       List<Tupl<A, Termtype<A, B>>> right = ([Tupl(x, t)]);
 
       if (left) {
-        throw Exception( 'Not unifiable: Occurs check true / Circularity ');
+        throw Exception('Not unifiable: Occurs check true / Circularity ');
       } else {
         return right;
       }
@@ -164,7 +163,7 @@ class UnificationR<A, B> {
       // sollte ersetzt werden.
       return _unify_one(t, s);
     } else {
-      throw Exception( 'Not unifiable #2 ');
+      throw Exception('Not unifiable #2 ');
     }
   }
 

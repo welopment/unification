@@ -1,45 +1,44 @@
 # Changelog
 
-## 0.0.1
+## 0.1.10
+ - Remove nullable field "name" in class "Term"
 
-- Initial release.
-
-## 0.0.2
-
-- Updated to use Dart 2.1.0
-- Added Examples
-
-## 0.1.0
-
- - Fixed dependencies.
-
-## 0.1.1
-
- - Fixed some minor issues discovered by pana.
-
-## 0.1.2
-
- - term data structures into separate file.
- - improved comments and docs.
-
-
-## 0.1.3
- - Fixed minor issues discovered by pana.
-
- ## 0.1.4
- - Fixed minor issues discovered by pana.
-
-
- ## 0.1.5
- - Fixed issues related to generics.
-
- ## 0.1.6
- - Fixed issues related to version 2.4.1 of Dart.
-
-## 0.1.7
- - Fixed issues reported by pana.
-
+## 0.1.9
+ - Fix issues reported by pana 
 
 ## 0.1.8
- - Introduced split type variable for Var and Term.
- - Refactored Termtype. 
+ - Introduce type variable for Var and Term
+ - Refactor Termtype
+
+## 0.1.7
+ - Fix issues reported by pana
+
+## 0.1.6
+ - Fix issues related to version 2.4.1 of Dart
+
+## 0.1.5
+ - Fix issues related to generics
+
+## 0.1.4
+ - Fix minor issues discovered by pana
+
+## 0.1.3
+ - Fix issues reported by pana 
+
+## 0.1.2
+ - Separate term data structures 
+ - Improve comments and docs
+
+## 0.1.1
+ - Fix some minor issues discovered by pana
+
+## 0.1.0
+ - Fix dependencies
+
+## 0.0.2
+- Update to use Dart 2.1.0
+- Add Examples
+
+## 0.0.1
+- Publish initial release
+
