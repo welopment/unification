@@ -1,8 +1,30 @@
-unification
+Unification
 ===========
 
-Implementations of first-order logical unification.
+A library providing implementations of first-order logical unification for dart and flutter.
 
+# Getting started
+
+Add the dependency to your pubspec.yaml file:
+
+```yaml
+dependencies:
+  unification: #latest version
+```
+
+Add the import statement to your source files:
+
+```dart
+import 'package:unification/unification.dart';
+```
+
+Or, give it a try and run the example:
+
+```dart
+dart ./example/main.dart 
+```
+
+Modify the example to test more less simple tasks!
 
 # Example:
 
