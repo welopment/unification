@@ -64,7 +64,7 @@ class Unification<A, B> {
       Termtype<A, B> s, A x, List<Termtype<A, B>> l) {
     assert(l != null);
     if (l.isEmpty) {
-      return done<List<Termtype<A, B>>>(List<Termtype<A, B>>());
+      return done<List<Termtype<A, B>>>(<Termtype<A, B>>[]);
     } else {
       var lh = l.first;
       var lt = l.sublist(1);
@@ -109,10 +109,10 @@ class Unification<A, B> {
 
       if (x == y) {
         return done<List<Tupl<A, Termtype<A, B>>>>(
-            List<Tupl<A, Termtype<A, B>>>());
+            <Tupl<A, Termtype<A, B>>>[]);
       } else {
         return done<List<Tupl<A, Termtype<A, B>>>>(
-            List<Tupl<A, Termtype<A, B>>>()
+            <Tupl<A, Termtype<A, B>>>[]
               ..add(Tupl<A, Termtype<A, B>>(x, t)));
       }
     } else if (s is Term<B, A> && t is Term<B, A>) {

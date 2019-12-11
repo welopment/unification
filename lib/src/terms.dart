@@ -1,9 +1,8 @@
-//part of unification;
-
-///  terms
-///
-
-abstract class Termtype<T, U> {}
+/// The super class, from which Term and Var are derived
+abstract class Termtype<T, U> {
+  @override
+  String toString();
+}
 
 /// T ist der Name der Variablen, U ist ungenutzt, der Wert, der zugewiesen wird.
 

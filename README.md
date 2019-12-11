@@ -1,10 +1,9 @@
 unification
 ===========
 
-This is an implementation of logical first-order unification.
+A library featuring several implementations of logical unification.
 
-The solution of a unification problem is a substitution, that is, 
-a mapping assigning a symbolic value to each variable of the problem's expressions.
+
 
 # Example:
 

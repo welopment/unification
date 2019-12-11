@@ -103,9 +103,9 @@ class UnificationH<A, B> {
       var y = t.id;
 
       if (x == y) {
-        return List<Tupl<A, Termtype<A, B>>>();
+        return <Tupl<A, Termtype<A, B>>>[];
       } else {
-        return List<Tupl<A, Termtype<A, B>>>()
+        return <Tupl<A, Termtype<A, B>>>[]
           ..add(Tupl<A, Termtype<A, B>>(x, t));
       }
     } else if (s is Term<B, A> && t is Term<B, A>) {
@@ -157,7 +157,7 @@ class UnificationH<A, B> {
   List<Tupl<A, Termtype<A, B>>> unify(
       List<Tupl<Termtype<A, B>, Termtype<A, B>>> s) {
     if (s.isEmpty) {
-      return (List<Tupl<A, Termtype<A, B>>>());
+      return <Tupl<A, Termtype<A, B>>>[];
     } else {
       Termtype<A, B> x = s.first.left;
       Termtype<A, B> y = s.first.right;
