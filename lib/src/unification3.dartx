@@ -12,7 +12,7 @@ class Unification<A, B> {
     if (t is Var<A, B>) {
       A y = t.id;
       return done(x == y);
-    } else if (t is Term<B, A>) {
+    } else if (t is Term<A, B>) {
       List<Termtype<A, B>> s = t.termlist;
       return tailcall(() => _exsts(s, x));
     } else if (x == null || t == null) {
@@ -47,11 +47,11 @@ class Unification<A, B> {
       } else {
         return done(t);
       }
-    } else if (t is Term<B, A>) {
+    } else if (t is Term<A, B>) {
       B f = t.id;
       List<Termtype<A, B>> u = t.termlist;
       return tailcall(() => _mp(s, x, u)).map((right) {
-        return Term<B, A>(f, right);
+        return Term<A, B>(f, right);
       });
     } else {
       throw Exception('Substitution: #2 ');
@@ -115,7 +115,7 @@ class Unification<A, B> {
             <Tupl<A, Termtype<A, B>>>[]
               ..add(Tupl<A, Termtype<A, B>>(x, t)));
       }
-    } else if (s is Term<B, A> && t is Term<B, A>) {
+    } else if (s is Term<A, B> && t is Term<A, B>) {
       B f = s.id;
       List<Termtype<A, B>> sc = s.termlist;
 
@@ -133,9 +133,9 @@ class Unification<A, B> {
       } else {
         throw Exception('Not unifiable: #1 ');
       }
-    } else if (s is Var<A, B> && t is Term<B, A>) {
+    } else if (s is Var<A, B> && t is Term<A, B>) {
       return _unifyhelper(t, s.id);
-    } else if (s is Term<B, A> && t is Var<A, B>) {
+    } else if (s is Term<A, B> && t is Var<A, B>) {
       return _unifyhelper(s, t.id);
     } else {
       throw Exception('Not unifiable: #2 ');

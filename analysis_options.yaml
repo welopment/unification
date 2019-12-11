@@ -6,11 +6,10 @@ analyzer:
     unused_local_variable: false
     unused_import: false
     omit_local_variable_types: false
+    
   strong-mode:
     implicit-casts: false
     implicit-dynamic: false
-
-
   enable-experiment:
     - non-nullable
     - extension-methods

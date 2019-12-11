@@ -2,107 +2,102 @@ import 'utils.dart';
 import 'terms.dart';
 export 'terms.dart';
 
+// TODO:
+// rename Tupl into Binding
+// inform and mark Binding about origin of Termtype from different clauses.abstract
+// replace Exceptions with Result
+
 /// not trampolined version
 /// without helper functions
 
-/// reusing unify_one in two branches Term Var -> Var Term
-/// B ist der Nutzwert des Terms, A ist der Name, eher ungenutzt .
-/// A ist der Name der Variablen, B ist ungenutzt, der Nutzwert, der zugewiesen wird.
-
 class UnificationR<A, B> {
-  /// [occurs] occurs check
-  /// gibt das ergebnis als bool zurück , nicht als Exception
-  bool occurs(A x, Termtype<A, B> t) {
+  /// Performs an Occurs Check and
+  /// returns the result as bool.
+  bool occurs(B id, Termtype<A, B> t) {
     if (t is Var<A, B>) {
-      A y = t.id;
-      return (x == y);
-    } else if (t is Term<B, A>) {
+      B tid = t.id;
+      return (id == tid);
+    } else if (t is Term<A, B>) {
       List<Termtype<A, B>> s = t.termlist;
-      return _exsts(s, x);
-    } else if (x == null || t == null) {
-      throw Exception('occurs: Variable name  or Termtype is null ');
+      return _exsts(s, id);
     } else {
-      throw Exception('occurs: Unknown Exception ');
+      throw Exception('occurs: Unknown Termtype or null.');
     }
   }
 
-  /// [_exsts] exists helper fuction for  'occurs check '
+  /// A helper fuction for  'occurs check '
 
-  bool _exsts(List<Termtype<A, B>> l, A target) {
+  bool _exsts(List<Termtype<A, B>> l, B target) {
     if (l.isEmpty) {
-      // Liste ist null
       return (false);
     } else {
-      Termtype<A, B> lh = l.first; // Head of LIst
-      List<Termtype<A, B>> lt = l.sublist(1); // Rest/Tail of List
+      Termtype<A, B> hl = l.first; // head of List
+      List<Termtype<A, B>> tl = l.sublist(1); // tail of list
 
-      bool right = _exsts(lt, target); // recursiv
-      bool left = occurs(target, lh); // Abstieg in Schachtelung
+      bool right = _exsts(tl, target); // direct recursion
+      bool left = occurs(target, hl); // indirect recursion
       return (left || right);
     }
   }
 
-  ///  [_subst] substitution
+  ///  Performs a substitution.
 
-  Termtype<A, B> _subst(Termtype<A, B> s, A x, Termtype<A, B> t) {
+  Termtype<A, B> _subst(Termtype<A, B> s, B x, Termtype<A, B> t) {
     if (t is Var<A, B>) {
       if (x == t.id) {
         return (s);
       } else {
         return (t);
       }
-    } else if (t is Term<B, A>) {
+    } else if (t is Term<A, B>) {
       B f = t.id;
       List<Termtype<A, B>> u = t.termlist;
       List<Termtype<A, B>> right = _mp(s, x, u);
-      return Term<B, A>(f, right);
+      return Term<A, B>(f, right);
     } else {
-      throw Exception('Subst: Unbehandelter Fall ');
+      throw Exception('_subst: Unknown Termtype or null ');
     }
   }
 
-  /// Wendet die substitution an
-  /// Ist teil einer doppelten Iteration, die recursiv geschrieben ist.
-  /// recursives Durchlaufen eine Liste
-  /// diese wird als letztes Argument List<Termtype<A, B>> l
-  /// gegeben.
+  /// recursively runs through a list [l] of [Termtype]s given as last parameter
 
-  List<Termtype<A, B>> _mp(Termtype<A, B> s, A x, List<Termtype<A, B>> l) {
+  List<Termtype<A, B>> _mp(Termtype<A, B> s, B x, List<Termtype<A, B>> l) {
     if (l.isEmpty) {
       return (<Termtype<A, B>>[]);
     } else {
-      Termtype<A, B> lh = l.first;
-      List<Termtype<A, B>> lt = l.sublist(1);
+      Termtype<A, B> lh = l.first; // head of list
+      List<Termtype<A, B>> lt = l.sublist(1); // tails of list
 
-      List<Termtype<A, B>> right = _mp(s, x, lt);
+      List<Termtype<A, B>> right = _mp(s, x, lt); // direct recursion
 
-      // die Substitution wird angewandt.
-      Termtype<A, B> left = _subst(s, x, lh);
+      // applies a substitution
+      Termtype<A, B> left = _subst(s, x, lh); // indirect recursion
 
+      // concatenates results to list
       List<Termtype<A, B>> res = [left];
       res.addAll(right);
+
       return res;
     }
   }
 
-  /// apply substitution
-  /// Die Liste der substitutionen ist in
-  /// List<Tupl<A, Termtype<A, B>>> ths
-  /// diese wird angewandt auf einen einzelnen Term
-  /// Termtype<A, B> z
-  Termtype<A, B> _apply(List<Tupl<A, Termtype<A, B>>> ths, Termtype<A, B> z) {
+  /// Applies a substitution
+  /// The list of substitutions [ths] of type List<Tupl<B, Termtype<A, B>>>  is given as first argument.
+  /// One substitution is applied on the term [t] of type  Termtype<A, B> given as last argument.
+
+  Termtype<A, B> _apply(List<Tupl<B, Termtype<A, B>>> ths, Termtype<A, B> t) {
     if (ths.isEmpty) {
-      return (z);
+      return (t);
     } else {
-      Tupl<A, Termtype<A, B>> frst = ths.first;
-      A x = frst.left;
+      Tupl<B, Termtype<A, B>> frst = ths.first;
+      B x = frst.left;
       Termtype<A, B> u = frst.right;
 
-      List<Tupl<A, Termtype<A, B>>> xs = ths.sublist(1);
+      List<Tupl<B, Termtype<A, B>>> xs = ths.sublist(1);
 
-      Termtype<A, B> apd = _apply(xs, z);
+      Termtype<A, B> apd = _apply(xs, t);
 
-      if (apd is Term<B, A>) {
+      if (apd is Term<A, B>) {
         assert(apd.id != null);
       }
       Termtype<A, B> right = _subst(u, x, apd);
@@ -110,87 +105,110 @@ class UnificationR<A, B> {
     }
   }
 
-  /// [unify_one]: unify two ingle Termtypes, one by one
-  /// der Rückgabewert ist eine Liste, List<Tupl<A, Termtype<A, B>>>
-  /// das ist die DB der Substitutionen
+  /// Tries to unify two single Termtypes [s] and [t].
+  /// Returns a list of substiturions of type List<Tupl<B, Termtype<A, B>>>.
 
-  List<Tupl<A, Termtype<A, B>>> _unify_one(Termtype<A, B> s, Termtype<A, B> t) {
+  List<Tupl<B, Termtype<A, B>>> _unify_one(
+      Termtype<A, B> s, Termtype<A, B> t, List<Tupl<B, Termtype<A, B>>> subs) {
     if (s == null || t == null) {
-      throw Exception('occurs: Termtype is null ');
-      // Zwei Variablen
+      throw Exception('_unify_one: One of the Termtypes is null.');
+
+      // Case 1: Try to unify two variables.
     } else if (s is Var<A, B> && t is Var<A, B>) {
-      var x = s.id;
-      var y = t.id;
+      B x = s.id;
+      B y = t.id;
 
       if (x == y) {
-        return <Tupl<A, Termtype<A, B>>>[];
+        return subs; //<Tupl<B, Termtype<A, B>>>[]
       } else {
-        return <Tupl<A, Termtype<A, B>>>[]..add(Tupl<A, Termtype<A, B>>(x, t));
+        return subs..add(Tupl<B, Termtype<A, B>>(x, t));
       }
-      // Zwei Terme
-    } else if (s is Term<B, A> && t is Term<B, A>) {
+
+      // Case 2: Try to unify two Terms.
+    } else if (s is Term<A, B> && t is Term<A, B>) {
       B f = s.id;
-      List<Termtype<A, B>> sc = s.termlist;
+      List<Termtype<A, B>> sl = s.termlist;
 
       B g = t.id;
-      List<Termtype<A, B>> tc = t.termlist;
-      // die Listen innerhalb jeweils eines Terms werden unifiziert.
-      // das reicht aber nicht. Die id und der Name müssen unifiziert werden
-      if ((f == g) && (sc.length == tc.length)) {
+      List<Termtype<A, B>> tl = t.termlist;
+      // Tries to unify two terms, i.e. their term lists and their names.
+      if ((f == g) && (sl.length == tl.length)) {
         List<Tupl<Termtype<A, B>, Termtype<A, B>>> zpd =
-            // zwei Eingabetypen , ein Ausgabetyp
             zip<Termtype<A, B>, Tupl<Termtype<A, B>, Termtype<A, B>>>(
-                sc, tc, (left, right) => Tupl(left, right));
+                sl, tl, (left, right) => Tupl(left, right));
 
-        return unify(zpd);
+        return unify(zpd, subs);
       } else {
-        throw Exception('Not unifiable #1 ');
+        throw Exception('_unify_one: Not unifiable #1 ');
       }
-    } else if (s is Var<A, B> && t is Term<B, A>) {
-      A x = s.id;
-      bool left = occurs(x, t); // true if occurs
-      // eine neue Belegung wird hergestellt.
-      List<Tupl<A, Termtype<A, B>>> right = ([Tupl(x, t)]);
 
-      if (left) {
-        throw Exception('Not unifiable: Occurs check true / Circularity ');
+      // Case 3: Try to unify a variable with a term.
+    } else if (s is Var<A, B> && t is Term<A, B>) {
+      B x = s.id;
+      bool occursCheck = occurs(x, t); // true if occurs
+
+      if (occursCheck) {
+        throw Exception('_unify_one: Not unifiable, circularity.');
       } else {
-        return right;
+        // new substitution is added to the list of substitutions.
+        //List<Tupl<B, Termtype<A, B>>> right =
+        subs.add(Tupl(x, t)); // TODO: switch back to "[Tupl(x, t)]"
+        return subs; // TODO: switch back to "right"
       }
-    } else if (s is Term<B, A> && t is Var<A, B>) {
-      // Wiederverwendung des vorausgehenden Falls, nämlich
-      //  s is Var<A,B>  && t is Term<B,A>    für die Umgekehrte Stellung
-      // sollte ersetzt werden.
-      return _unify_one(t, s);
+
+      // Case 4: Try to unify a term with a variable.
+    } else if (s is Term<A, B> && t is Var<A, B>) {
+      B x = t.id;
+      bool occursCheck = occurs(x, s); // true if occurs
+
+      if (occursCheck) {
+        throw Exception('_unify_one: Not unifiable, circularity.');
+      } else {
+        // new substitution is added to the list of substitutions.
+        //List<Tupl<B, Termtype<A, B>>> right =
+        subs.add(Tupl(x, s)); // TODO: switch back to "[Tupl(x, t)]"
+        return subs; // TODO: switch back to "right"
+      }
+      // return _unify_one(t, s);
     } else {
-      throw Exception('Not unifiable #2 ');
+      throw Exception('_unify_one: Unknown Termtype or null.');
     }
   }
 
-  /// [unify]: unify a list of terms
-  // rückgabe ist die liste der substitutionen,
-  // die bei der Rückkehr aus der Rekursion aneinander gehängt werden
+  /// Unifies a list of terms.
+  /// Returns a list of substitutions.
 
-  List<Tupl<A, Termtype<A, B>>> unify(
-      List<Tupl<Termtype<A, B>, Termtype<A, B>>> s) {
+  List<Tupl<B, Termtype<A, B>>> unify(
+      List<Tupl<Termtype<A, B>, Termtype<A, B>>> s,
+      List<Tupl<B, Termtype<A, B>>> subs) {
     if (s.isEmpty) {
-      return (<Tupl<A, Termtype<A, B>>>[]);
+      return (<Tupl<B, Termtype<A, B>>>[]);
     } else {
       Termtype<A, B> x = s.first.left;
       Termtype<A, B> y = s.first.right;
-      List<Tupl<Termtype<A, B>, Termtype<A, B>>> t = s.sublist(1);
+
+      List<Tupl<Termtype<A, B>, Termtype<A, B>>> t =
+          s.sublist(1); // tail of list
       // recursion on list of terms,
       // so, unification happens in reverse order
-      List<Tupl<A, Termtype<A, B>>> t2 = unify(t);
+      List<Tupl<B, Termtype<A, B>>> t2 = unify(t, subs); // TODO: new subs?
       // t2 is substiturion, diese wird angewandt
       Termtype<A, B> left = _apply(t2, x);
       Termtype<A, B> right = _apply(t2, y);
       // unify one b one in reverse order,
       // returning when from recursion
       // rückgabe ist die liste der substitutionen.
-      List<Tupl<A, Termtype<A, B>>> t1 = _unify_one(left, right);
+      List<Tupl<B, Termtype<A, B>>> t1 = _unify_one(left, right, subs);
       // die bei der Rückkehr aus der Rekursion aneinander gehängt werden
       return t1 + t2;
     }
   }
+}
+
+class Result<A, B> {
+  Result(bool uni, List<Tupl<B, Termtype<A, B>>> subs)
+      : unifiable = uni,
+        substitution = subs;
+  List<Tupl<B, Termtype<A, B>>> substitution;
+  bool unifiable;
 }
