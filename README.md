@@ -1,27 +1,36 @@
 unification
 ===========
 
-A library featuring several implementations of logical unification.
-
+Implementations of first-order logical unification.
 
 
 # Example:
 
 ```dart
-import "package:tailcalls/tailcalls.dart";
-import "package:unification/unification.dart";
+  import "package:unification/unification.dart";
+  
+  UnificationR<String, String> u = UnificationR<String, String>();
 
-var test = unify(
-        List()
-        ..add(
-            Tupl(
-              Term("b0", [  Term("b1", []),  Term("b2", [])]),
-              Term("b0", [  Term("b1", []),  Term("b2", [])]),
+  List<Tupl<String, Termtype<String, String>>> res1 = u.unify(
+      <Tupl<Var<String, String>, Var<String, String>>>[]..add(
+          Tupl<Var<String, String>, Var<String, String>>(
+            Var('a'),
+            Var('a'),
           ),
         ),
-    ).result();
-var mgu = test;
-print(mgu.toString());
+      <Tupl<String, Termtype<String, String>>>[]);
+
+  List<Tupl<String, Termtype<String, String>>> res2 = u.unify(
+      <Tupl<Var<String, String>, Var<String, String>>>[]..add(
+          Tupl(
+            Var('a'),
+            Var('b'),
+          ),
+        ),
+      <Tupl<String, Termtype<String, String>>>[]);
+
+  print(res1);
+  print(res2);
 ```
 
 
