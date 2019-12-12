@@ -2,9 +2,9 @@ import 'utils.dart';
 import 'terms.dart';
 export 'terms.dart';
 
-// rename Tupl
-// origin of Termtype
-// replace Exceptions with Result
+// - rename Tupl
+// - origin of terms
+// - replace Exceptions
 
 /// not trampolined version
 /// without helper functions
@@ -23,19 +23,20 @@ class UnificationR<A, B> {
   bool occurs(B id, Termtype<A, B> t) {
     if (t is Var<A, B>) {
       B tid = t.id;
-      // case 1: identical variables
+      // case 1: test for identity of variables
       return (id == tid);
     } else if (t is Term<A, B>) {
       List<Termtype<A, B>> s = t.termlist;
+      // case 2: search through lists of terms
       return _exists(s, id);
     } else {
       throw Exception('occurs: Unknown Termtype or null.');
     }
   }
 
-  /// A helper fuction for occurs check responsible for checking terms.
-  /// It checks if the target variable represented by its [id]
-  /// occurs in a list of Termtypes [l].
+  /// A helper fuction for occurs checking lists of terms.
+  /// Checks if the target variable represented by its [id]
+  /// occurs in a list of terms [l].
 
   bool _exists(List<Termtype<A, B>> l, B id) {
     if (l.isEmpty) {
@@ -56,19 +57,18 @@ class UnificationR<A, B> {
 
   //#######################################################
   //###
-  //###   Substitution: >> _apply  ->  _subst  <->  _mp <<
+  //###   Substitution: >> _lookup  ->  _substitute  <->  _substituteList <<
   //###
   //###
   //###
   //###
   //#######################################################
 
-  /// Looks up a substitution from the list of substitutions [ths].
-  /// on a term [t] with type Termtype<A, B> given as last argument.
-
+  /// Look up a binding/substitution from the list of [substitutions].
+ 
   Termtype<A, B> _lookup(
     List<Tupl<B, Termtype<A, B>>> substitutions, // list of substitutions
-    Termtype<A, B> term, // term to apply a substitution
+    Termtype<A, B> term, // term to apply a substitution to
   ) {
     if (substitutions.isEmpty) {
       // if the list of substitutions is empty the original term is returned
@@ -80,16 +80,17 @@ class UnificationR<A, B> {
       //
       // the key part of the mapping/binding, which is the id of a variable.
       B key = first.left;
-      // the value part of the mapping/binding, which is the substitution.
+      // the value part of the binding/substitution.
       Termtype<A, B> value = first.right;
 
-      // 2. Performing substitutions on the rest of the list of substitutions
+      // 2. Looking for substitutions in the rest of the list of substitutions
       List<Tupl<B, Termtype<A, B>>> rest = substitutions.sublist(1);
 
-      /// direct recursion through the list of substitutions = Look up
+      /// direct recursion through the list of substitutions 
       Termtype<A, B> applied = _lookup(rest, term);
 
-      /// indirect recursion =  actually performing  substitution
+      /// indirect recursion 
+      /// =  actually performing substitution, ascending from recursion
       Termtype<A, B> right = _substitute(key, value, applied);
       return right;
     }
@@ -102,7 +103,7 @@ class UnificationR<A, B> {
   Termtype<A, B> _substitute(
     B key, // entry in the list of substitutions, key part, id of the variable
     Termtype<A, B> value, // the actual substitution, value part,
-    Termtype<A, B> term, // herein the substitution is performed
+    Termtype<A, B> term, // term that the substitution is to be performed on
   ) {
     if (term is Var<A, B>) {
       if (key == term.id) {
