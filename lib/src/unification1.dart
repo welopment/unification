@@ -12,7 +12,7 @@ export 'terms.dart';
 class UnificationR<A, B> {
   //#######################################################
   //###
-  //###   Occurs Check:   occurs <->  _exsts <<
+  //###   Occurs Check:   occurs <->  _exists <<
   //###
   //###
   //###
