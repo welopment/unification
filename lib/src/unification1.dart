@@ -87,10 +87,13 @@ class UnificationR<A, B> {
       List<Tupl<B, Termtype<A, B>>> rest = substitutions.sublist(1);
 
       /// direct recursion through the list of substitutions 
+      /// to get to bottom of recursion, prepare for returning bottom up. 
       Termtype<A, B> applied = _lookup(rest, term);
 
       /// indirect recursion 
-      /// =  actually performing substitution, ascending from recursion
+      /// =  actually perform substitution, ascending from recursion
+      /// endet when substitution was possible, then returning the binding
+      /// all other returns are forgotten.  
       Termtype<A, B> right = _substitute(key, value, applied);
       return right;
     }
@@ -99,6 +102,7 @@ class UnificationR<A, B> {
   /// Actually performs a substitution on a [term]. A binding/substitution
   /// is given by a [key], which is the id of a variable listed in binding,
   /// and a [value], which is the actual substitution to be apply on [term].
+  /// determines, if a binding is found for variables.
 
   Termtype<A, B> _substitute(
     B key, // entry in the list of substitutions, key part, id of the variable
@@ -106,8 +110,10 @@ class UnificationR<A, B> {
     Termtype<A, B> term, // term that the substitution is to be performed on
   ) {
     if (term is Var<A, B>) {
+      /// determine, if a binding is found.
       if (key == term.id) {
         /// Actually performs the substitution !
+        // this should be a copy of the binding, requires deep copy?
         return value;
       } else {
         /// return the orignial term, if binding not found
@@ -131,7 +137,7 @@ class UnificationR<A, B> {
   /// A helper fuction for applying bindings/substitutions on a list of [terms].
   /// [key] is the id of a variable listed in a binding/substitution,
   /// and [value] is term listed in the binding/substitution.
-
+  /// only works on lists of terms.
   List<Termtype<A, B>> _substituteList(
     B key,
     Termtype<A, B> value,
@@ -146,7 +152,7 @@ class UnificationR<A, B> {
       // applies a substitution
       // indirect recursion to descend into the first term in the list, applying the substitution
       Termtype<A, B> head = _substitute(key, value, first);
-      // direct recursion over the rest of the list.
+      // direct recursion over the rest of the neighbors in the list of binding.
       List<Termtype<A, B>> tail = _substituteList(key, value, rest);
 
       // concatenate results to list
