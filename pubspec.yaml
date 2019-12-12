@@ -4,7 +4,7 @@ author: "Michael Bürgerling <michael.buergerling@gmail.com>"
 description: "An implementation of logical first-order unification for logic programming in dart. "
 homepage: "https://github.com/welopment/unification"
 environment:
-  sdk: ">=1.8.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   tailcalls: ^0.1.3
