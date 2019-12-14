@@ -3,15 +3,15 @@ typedef ZipFun2<T, S> = S Function(T a, T b);
 
 /// Applies a function on each pair elements of two lists of equal lenght
 List<S> zip<T, S>(List<T> l1, List<T> l2, ZipFun2<T, S> f) {
-  if (l1 != null && l2 != null) {
-    throw Exception('Error in zip: List ist null ');
+  if (l1 == null || l2 == null) {
+    throw Exception('zip: one of the lists ist null. ');
   }
 
   int len1 = l1.length;
   int len2 = l2.length;
 
   if (len1 != len2) {
-    throw Exception('Error in zip: Listen ungleich lang ');
+    throw Exception('zip: list of different lengths.');
   }
 
   List<S> res = <S>[];
