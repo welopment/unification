@@ -33,23 +33,23 @@ Modify the example to test more less simple tasks!
   
   UnificationR<String, String> u = UnificationR<String, String>();
 
-  List<Tupl<String, Termtype<String, String>>> res1 = u.unify(
-      <Tupl<Var<String, String>, Var<String, String>>>[]..add(
-          Tupl<Var<String, String>, Var<String, String>>(
+  List<Tuple<String, Termtype<String, String>>> res1 = u.unify(
+      <Tuple<Var<String, String>, Var<String, String>>>[]..add(
+          Tuple<Var<String, String>, Var<String, String>>(
             Var('a'),
             Var('a'),
           ),
         ),
-      <Tupl<String, Termtype<String, String>>>[]);
+      <Tuple<String, Termtype<String, String>>>[]);
 
-  List<Tupl<String, Termtype<String, String>>> res2 = u.unify(
-      <Tupl<Var<String, String>, Var<String, String>>>[]..add(
-          Tupl(
+  List<Tuple<String, Termtype<String, String>>> res2 = u.unify(
+      <Tuple<Var<String, String>, Var<String, String>>>[]..add(
+          Tuple(
             Var('a'),
             Var('b'),
           ),
         ),
-      <Tupl<String, Termtype<String, String>>>[]);
+      <Tuple<String, Termtype<String, String>>>[]);
 
   print(res1);
   print(res2);

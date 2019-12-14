@@ -1,8 +1,5 @@
-import 'utils.dart';
-import 'terms.dart';
-export 'terms.dart';
-
-// - rename Tupl
+import 'package:unification/unification.dart';
+// - rename Tuple
 // - origin of terms
 // - replace Exceptions
 
@@ -68,7 +65,7 @@ class UnificationR<A, B> {
   /// Then calls [_substitute] which applies it when possible.
 
   Termtype<A, B> _lookup(
-    List<Tupl<B, Termtype<A, B>>> substitutions, // list of substitutions
+    List<Tuple<B, Termtype<A, B>>> substitutions, // list of substitutions
     Termtype<A, B> term, // term to apply a substitution to
   ) {
     if (substitutions.isEmpty) {
@@ -77,7 +74,7 @@ class UnificationR<A, B> {
     } else {
       // 1. Getting the first substitution
       // first element of the list of substitutions
-      Tupl<B, Termtype<A, B>> first = substitutions.first;
+      Tuple<B, Termtype<A, B>> first = substitutions.first;
       //
       // the key part of the mapping/binding, which is the id of a variable.
       B key = first.left;
@@ -85,7 +82,7 @@ class UnificationR<A, B> {
       Termtype<A, B> value = first.right;
 
       // 2. Looking for substitutions in the rest of the list of substitutions
-      List<Tupl<B, Termtype<A, B>>> rest = substitutions.sublist(1);
+      List<Tuple<B, Termtype<A, B>>> rest = substitutions.sublist(1);
 
       /// direct recursion down to the end of the list of [substitutions]
       Termtype<A, B> applied = _lookup(rest, term);
@@ -99,7 +96,7 @@ class UnificationR<A, B> {
   }
 
   Termtype<A, B> subsitute(
-    List<Tupl<B, Termtype<A, B>>> substitutions, // list of substitutions
+    List<Tuple<B, Termtype<A, B>>> substitutions, // list of substitutions
     Termtype<A, B> term, // term to apply a substitution to
   ) {
     return _lookup(substitutions, term);
@@ -188,12 +185,12 @@ class UnificationR<A, B> {
   /// Tries to unify two single Termtypes [s] and [t].
   /// Compares and adds bindings. Doesnt apply substitutions,
   /// no occurance of _apply or _subst.
-  /// Returns a list of substiturions of type List<Tupl<B, Termtype<A, B>>>.
+  /// Returns a list of substiturions of type List<Tuple<B, Termtype<A, B>>>.
 
-  List<Tupl<B, Termtype<A, B>>> unify(
+  List<Tuple<B, Termtype<A, B>>> unify(
     Termtype<A, B> s,
     Termtype<A, B> t,
-    List<Tupl<B, Termtype<A, B>>> substitutionInitial,
+    List<Tuple<B, Termtype<A, B>>> substitutionInitial,
   ) {
     // Case 1: Try to unify two variables.
     if (s is Var<A, B> && t is Var<A, B>) {
@@ -202,10 +199,10 @@ class UnificationR<A, B> {
       if (ids == idt) {
         // identical variables, do nothing, i.e. return bindings untouched
         return substitutionInitial;
-        // formerly: <Tupl<B, Termtype<A, B>>>[]
+        // formerly: <Tuple<B, Termtype<A, B>>>[]
       } else {
         // add new binding
-        return substitutionInitial..add(Tupl<B, Termtype<A, B>>(ids, t));
+        return substitutionInitial..add(Tuple<B, Termtype<A, B>>(ids, t));
       }
 
       // Case 2: Try to unify two Terms.
@@ -220,9 +217,9 @@ class UnificationR<A, B> {
 
       // Tries to unify two terms, i.e. their ids and their term lists of terms.
       if (/*(ids == idt) && */ lens == lent && lens > 0) {
-        List<Tupl<Termtype<A, B>, Termtype<A, B>>> tuples =
-            zip<Termtype<A, B>, Tupl<Termtype<A, B>, Termtype<A, B>>>(
-                ls, lt, (left, right) => Tupl(left, right));
+        List<Tuple<Termtype<A, B>, Termtype<A, B>>> tuples =
+            zip<Termtype<A, B>, Tuple<Termtype<A, B>, Termtype<A, B>>>(
+                ls, lt, (left, right) => Tuple(left, right));
 
         return unifyList(tuples, substitutionInitial);
       } else {
@@ -240,8 +237,8 @@ class UnificationR<A, B> {
             'unify: Not unifiable, circularity/occurs==true [Var, Term].');
       } else {
         // new substitution is added to the list of substitutions.
-        substitutionInitial.add(Tupl(sid, t));
-        // switch back to "List<Tupl<B, Termtype<A, B>>> right =[Tupl(x, t)]"
+        substitutionInitial.add(Tuple(sid, t));
+        // switch back to "List<Tuple<B, Termtype<A, B>>> right =[Tuple(x, t)]"
         return substitutionInitial; // switch back to "right"
       }
 
@@ -256,8 +253,8 @@ class UnificationR<A, B> {
         );
       } else {
         // new substitution is added to the list of substitutions.
-        substitutionInitial.add(Tupl(tid, s));
-        // switch back to "List<Tupl<B, Termtype<A, B>>> right [Tupl(x, t)]"
+        substitutionInitial.add(Tuple(tid, s));
+        // switch back to "List<Tuple<B, Termtype<A, B>>> right [Tuple(x, t)]"
         return substitutionInitial; // switch back to "right"
       }
       // return _unify_one(t, s);
@@ -271,14 +268,15 @@ class UnificationR<A, B> {
   /// Doesnt add bindings.
   /// Returns a list of substitutions.
 
-  List<Tupl<B, Termtype<A, B>>> unifyList(
-    List<Tupl<Termtype<A, B>, Termtype<A, B>>> list, // a list of pairs of terms
-    List<Tupl<B, Termtype<A, B>>>
+  List<Tuple<B, Termtype<A, B>>> unifyList(
+    List<Tuple<Termtype<A, B>, Termtype<A, B>>>
+        list, // a list of pairs of terms
+    List<Tuple<B, Termtype<A, B>>>
         substitutionInitial, // the initial list of substitutions; improve!
   ) {
     if (list.isEmpty) {
       // no more pair of terms left to unify
-      return (<Tupl<B, Termtype<A, B>>>[]);
+      return (<Tuple<B, Termtype<A, B>>>[]);
     } else {
       // at least one pair of terms left to unify
       // head of list
@@ -286,10 +284,10 @@ class UnificationR<A, B> {
       Termtype<A, B> firstRight = list.first.right;
 
       // tail of list
-      List<Tupl<Termtype<A, B>, Termtype<A, B>>> tail = list.sublist(1);
+      List<Tuple<Termtype<A, B>, Termtype<A, B>>> tail = list.sublist(1);
       // recursion on tail, i.e. list of terms, working through the termlist
       // substitutionInitial
-      List<Tupl<B, Termtype<A, B>>> substitutionTail = unifyList(
+      List<Tuple<B, Termtype<A, B>>> substitutionTail = unifyList(
         tail,
         substitutionInitial,
       );
@@ -302,7 +300,7 @@ class UnificationR<A, B> {
       Termtype<A, B> firstRightApplied = _lookup(substitutionTail, firstRight);
       // unify one by one in reverse order, ascending from recursion performed by unify
 
-      List<Tupl<B, Termtype<A, B>>> substitutionHead = unify(
+      List<Tuple<B, Termtype<A, B>>> substitutionHead = unify(
         firstLeftApplied,
         firstRightApplied,
         substitutionInitial, // richtig?
@@ -311,12 +309,47 @@ class UnificationR<A, B> {
       return substitutionHead + substitutionTail;
     }
   }
+
+  Result<A, B> unifyAndSubstitute(Termtype<A, B> term1, Termtype<A, B> term2,
+      List<Tuple<B, Termtype<A, B>>> initial) {
+    List<Tuple<B, Termtype<A, B>>> res0 = [];
+    Termtype<A, B> res1 = NullTerm<A, B>(Id(0, 0) as B);
+    Termtype<A, B> res2 = NullTerm<A, B>(Id(0, 0) as B);
+    bool unifiable = false;
+
+    try {
+      res0 = unify(term1, term2, initial);
+      res1 = subsitute(res0, term1);
+      res2 = subsitute(res0, term2);
+      bool unifiable = true;
+    } on Exception {
+      bool unifiable = false;
+    }
+    return Result<A, B>(res1, res2, unifiable, res0);
+  }
 }
 
 class Result<A, B> {
-  Result(bool uni, List<Tupl<B, Termtype<A, B>>> subs)
-      : unifiable = uni,
-        substitution = subs;
-  List<Tupl<B, Termtype<A, B>>> substitution;
-  bool unifiable = false;
+  Result(Termtype<A, B> s, Termtype<A, B> t, bool uni,
+      List<Tuple<B, Termtype<A, B>>> subs)
+      : _unifiable = uni,
+        _substitution = subs,
+        _s = s,
+        _t = t;
+
+  final bool _unifiable;
+  bool get unifiable => _unifiable;
+
+  final List<Tuple<B, Termtype<A, B>>> _substitution;
+  List<Tuple<B, Termtype<A, B>>> get substitution => _substitution;
+
+  final Termtype<A, B> _s;
+  Termtype<A, B> get term1 => _s;
+
+  final Termtype<A, B> _t;
+  Termtype<A, B> get term2 => _t;
+
+  // toString
+  // ==
+  // hash
 }

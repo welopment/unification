@@ -1,9 +1,6 @@
-log
 .dart_tool
-.vscode/*
+.vscode
 .packages
 pubspec.lock
-tailcalls.code-workspace
-lib/tailcalls.archiv.tar.xz
 .gitignore
 .pedantic*
