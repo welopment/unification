@@ -31,28 +31,35 @@ Modify the example to test more less simple tasks!
 ```dart
   import "package:unification/unification.dart";
   
-  UnificationR<String, String> u = UnificationR<String, String>();
-
-  List<Tuple<String, Termtype<String, String>>> res1 = u.unify(
-      <Tuple<Var<String, String>, Var<String, String>>>[]..add(
-          Tuple<Var<String, String>, Var<String, String>>(
-            Var('a'),
-            Var('a'),
-          ),
-        ),
-      <Tuple<String, Termtype<String, String>>>[]);
-
-  List<Tuple<String, Termtype<String, String>>> res2 = u.unify(
-      <Tuple<Var<String, String>, Var<String, String>>>[]..add(
-          Tuple(
-            Var('a'),
-            Var('b'),
-          ),
-        ),
-      <Tuple<String, Termtype<String, String>>>[]);
-
-  print(res1);
-  print(res2);
+ 
+  //
+   Termtype<String, Id> term1 = Term(Id(1, 1), [
+    Var(
+      Id(1, 2),
+    ),
+    Var(
+      Id(1, 2),
+    ),
+  ]);
+  //
+  Termtype<String, Id> term2 = Term(Id(2, 1), [
+    Var(
+      Id(2, 2),
+    ),
+    Term(Id(2, 3), [
+      Var(
+        Id(2, 2),
+      ),
+    ]),
+  ]);
+  print('Occurs Check: Circularity.');
+  UnificationR<String, Id> u = UnificationR<String, Id>();
+  var mgu = u.unify(term1, term2, []);
+  var unifiedTerm1 = u.subsitute(mgu, term1);
+  var unifiedTerm2 = u.subsitute(mgu, term2);
+  print('mgu      > ' + mgu.toString());
+  print('term 1   > ' + unifiedTerm1.toString());
+  print('term 2   > ' + unifiedTerm2.toString());
 ```
 
 

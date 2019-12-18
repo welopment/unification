@@ -1,6 +1,5 @@
 import 'package:unification/unification.dart';
 
-
 /// The type of a function that is applied on the elements of two lists by zip
 typedef ZipFun2<T, S> = S Function(T a, T b);
 

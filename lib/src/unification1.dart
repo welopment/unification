@@ -313,8 +313,8 @@ class UnificationR<A, B> {
   Result<A, B> unifyAndSubstitute(Termtype<A, B> term1, Termtype<A, B> term2,
       List<Tuple<B, Termtype<A, B>>> initial) {
     List<Tuple<B, Termtype<A, B>>> res0 = [];
-    Termtype<A, B> res1 = NullTerm<A, B>(Id(0, 0) as B);
-    Termtype<A, B> res2 = NullTerm<A, B>(Id(0, 0) as B);
+    dynamic res1;
+    dynamic res2;
     bool unifiable = false;
 
     try {
@@ -324,8 +324,10 @@ class UnificationR<A, B> {
       bool unifiable = true;
     } on Exception {
       bool unifiable = false;
+      Exception();
     }
-    return Result<A, B>(res1, res2, unifiable, res0);
+    return Result<A, B>(
+        res1 as Termtype<A, B>, res2 as Termtype<A, B>, unifiable, res0);
   }
 }
 

@@ -1,57 +1,40 @@
 import 'package:unification/unification.dart';
 
+//################################################
+//##
+//##
+//## Termtype
+//##
+//##
+//################################################
+
 /// The super class, from which Term and Var are derived
 abstract class Termtype<T, U> {
-  Termtype(U id) : _id = id {
-    _unique++;
-  }
+  Termtype(U id) : _id = id;
+
   final U _id;
 
   U get id;
 
-  /// Used to manage visits
-  static int _unique = 0;
-
-  /// Used to manage visits
-  static int get unique => _unique;
-
-  @override
-  int get hashCode => _id.hashCode;
-
   @override
   String toString();
-}
-
-class NullTerm<T, U> implements Termtype<T, U> {
-  NullTerm(U id) : _id = id;
-
-  @override
-  final U _id;
-
-  @override
-  U get id => _id;
 
   @override
   int get hashCode => _id.hashCode;
-
-  @override
-  String toString() {
-    return 'NullTerm';
-  }
 }
+
+//################################################
+//##
+//##
+//## Var
+//##
+//##
+//################################################
 
 /// T ist der Name der Variablen, U ist ungenutzt, der Wert, der zugewiesen wird.
 
 class Var<T, U> implements Termtype<T, U> {
-  Var(U id) : _id = id {
-    _unique++;
-  }
-
-  /// Used to manage visits
-  static int _unique = 0;
-
-  /// Used to manage visits
-  static int get unique => _unique;
+  Var(U id) : _id = id;
 
   @override
   final U _id;
@@ -78,6 +61,14 @@ class Var<T, U> implements Termtype<T, U> {
   int get hashCode => _id.hashCode;
 }
 
+//################################################
+//##
+//##
+//## Term
+//##
+//##
+//################################################
+
 /// Term('f', [Var('A'), Var('B')])    f(A, B)
 /// T ist der Nutzwert des Terms, U ist der Name, eher ungenutzt .
 /// U ist der Name der Variablen, T ist ungenutzt, der Nutzwert, der zugewiesen wird.
@@ -85,15 +76,7 @@ class Var<T, U> implements Termtype<T, U> {
 class Term<T, U> implements Termtype<T, U> {
   Term(U id, List<Termtype<T, U>> t)
       : _id = id,
-        _termlist = t {
-    _unique++;
-  }
-
-  /// Used to manage visits
-  static int _unique = 0;
-
-  /// Used to manage visits
-  static int get unique => _unique;
+        _termlist = t;
 
   @override
   final U _id;
@@ -109,6 +92,8 @@ class Term<T, U> implements Termtype<T, U> {
     return 'Term(id: ${id.toString()}, termlist: ${termlist})';
   }
 
+  @override
+  int get hashCode => _id.hashCode;
   @override
   bool operator ==(dynamic other) {
     if (other is Term<T, U>) {
@@ -138,7 +123,13 @@ class Term<T, U> implements Termtype<T, U> {
   }
 }
 
-/// utility
+//################################################
+//##
+//##
+//## Tuple
+//##
+//##
+//################################################
 
 class Tuple<L, R> {
   Tuple(L left, R right)
@@ -163,3 +154,84 @@ class Tuple<L, R> {
     }
   }
 }
+
+//################################################
+//##
+//##
+//## Identity
+//##
+//##
+//################################################
+
+class Identity {
+  Identity(int clause, int id)
+      : _id = id,
+        _clause = clause {
+    _unique++;
+    _uni = _unique;
+  }
+  int _uni = -1;
+  //
+  final int _clause;
+  int get clause => _clause;
+  //
+  final int _id;
+  int get id => _id;
+  //
+
+  int get n => _id;
+  //
+  static int _unique = 0;
+  int get unique => _uni;
+
+  @override
+  int get hashCode => _uni;
+
+  bool identical(dynamic other) {
+    bool equal = hashCode == other.hashCode;
+    return equal;
+  }
+
+  bool equal(dynamic other) {
+    return this == other;
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    if (other is Identity) {
+      bool equalname = _id == other.id;
+      bool equalclause = _clause == other.clause;
+      return equalname & equalclause;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  String toString() {
+    return 'Id(clause ${_clause.toString()}, id:${id.toString()})';
+  }
+}
+
+//################################################
+//##
+//##
+//## Id
+//##
+//##
+//################################################
+
+class Id extends Identity {
+  Id(int clause, int id) : super(clause, id);
+  dynamic bound;
+
+  @override
+  String toString() {
+    return '${_clause.toString()}.${id.toString()}';
+  }
+}
+
+//########################################################
+//########################################################
+//########################################################
+//########################################################
