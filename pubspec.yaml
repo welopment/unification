@@ -1,6 +1,5 @@
 name: "unification"
-version: "0.1.10"
-author: "Michael Bürgerling <michael.buergerling@gmail.com>"
+version: "0.1.11"
 description: "An implementation of logical first-order unification for logic programming in dart. "
 homepage: "https://github.com/welopment/unification"
 environment:
@@ -10,7 +9,7 @@ dependencies:
   tailcalls: ^0.1.3
   #tailcalls:
   #  path: ../tailcall
-  trampoline: ^1.0.0
+  #trampoline: ^1.0.0
 
 dev_dependencies:
   #test: ^1.6.3

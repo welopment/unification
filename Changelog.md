@@ -1,5 +1,7 @@
 # Changelog
-
+## 0.1.11
+ - Much more documentation
+ 
 ## 0.1.10
  - Remove nullable field "name" in class "Term"
 
