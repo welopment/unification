@@ -207,10 +207,8 @@ class UnificationR<A, B> {
 
       // Case 2: Try to unify two Terms.
     } else if (s is Term<A, B> && t is Term<A, B>) {
-      B ids = s.id;
       List<Termtype<A, B>> ls = s.termlist;
 
-      B idt = t.id;
       List<Termtype<A, B>> lt = t.termlist;
       var lens = ls.length;
       var lent = lt.length;
@@ -321,9 +319,7 @@ class UnificationR<A, B> {
       res0 = unify(term1, term2, initial);
       res1 = subsitute(res0, term1);
       res2 = subsitute(res0, term2);
-      bool unifiable = true;
     } on Exception {
-      bool unifiable = false;
       Exception();
     }
     return Result<A, B>(

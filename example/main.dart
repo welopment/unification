@@ -1,5 +1,4 @@
 import 'package:unification/unification.dart';
-import 'dart:collection';
 
 void main() {
   // 1.
